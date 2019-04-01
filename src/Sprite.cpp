@@ -16,6 +16,7 @@ Sprite::Sprite(Bitmap* pBitmap)
 	// Initialize the member variables
 	m_pBitmap = pBitmap;
 	SetRect(&m_rcPosition, 0, 0, pBitmap->GetWidth(), pBitmap->GetHeight());
+	CalcCollisionRect();
 	m_ptVelocity.x = m_ptVelocity.y = 0;
 	m_iZOrder = 0;
 	SetRect(&m_rcBounds, 0, 0, 640, 480);
@@ -33,6 +34,7 @@ Sprite::Sprite(Bitmap* pBitmap, RECT& rcBounds, BOUNDSACTION baBoundsAction)
 	m_pBitmap = pBitmap;
 	SetRect(&m_rcPosition, iXPos, iYPos, iXPos + pBitmap->GetWidth(),
 		iYPos + pBitmap->GetHeight());
+	CalcCollisionRect();
 	m_ptVelocity.x = m_ptVelocity.y = 0;
 	m_iZOrder = 0;
 	CopyRect(&m_rcBounds, &rcBounds);
@@ -47,6 +49,7 @@ Sprite::Sprite(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder,
 	m_pBitmap = pBitmap;
 	SetRect(&m_rcPosition, ptPosition.x, ptPosition.y, pBitmap->GetWidth(),
 		pBitmap->GetHeight());
+	CalcCollisionRect();
 	m_ptVelocity = ptPosition;
 	m_iZOrder = iZOrder;
 	CopyRect(&m_rcBounds, &rcBounds);
@@ -61,7 +64,7 @@ Sprite::~Sprite()
 //-----------------------------------------------------------------
 // Sprite General Methods
 //-----------------------------------------------------------------
-void Sprite::Update()
+SPRITEACTION Sprite::Update()
 {
 	// Update the position
 	POINT ptNewPosition, ptSpriteSize, ptBoundsSize;
@@ -117,6 +120,15 @@ void Sprite::Update()
 		if (bBounce)
 			SetVelocity(ptNewVelocity);
 	}
+	// Die?
+	else if (m_baBoundsAction == BA_DIE)
+	{
+		if ((ptNewPosition.x + ptSpriteSize.x) < m_rcBounds.left ||
+			ptNewPosition.x > m_rcBounds.right ||
+			(ptNewPosition.y + ptSpriteSize.y) < m_rcBounds.top ||
+			ptNewPosition.y > m_rcBounds.bottom)
+			return SA_KILL;
+	}
 	// Stop (default)
 	else
 	{
@@ -136,6 +148,8 @@ void Sprite::Update()
 		}
 	}
 	SetPosition(ptNewPosition);
+
+	return SA_NONE;
 }
 
 void Sprite::Draw(HDC hDC)

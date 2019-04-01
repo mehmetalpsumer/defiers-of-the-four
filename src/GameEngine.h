@@ -10,6 +10,9 @@
 //-----------------------------------------------------------------
 #include <windows.h>
 #include <mmsystem.h>
+#include <vector>
+using namespace std;
+#include "Sprite.h"
 
 //-----------------------------------------------------------------
 // Joystick Flags
@@ -45,6 +48,7 @@ void MouseButtonDown(int x, int y, BOOL bLeft);
 void MouseButtonUp(int x, int y, BOOL bLeft);
 void MouseMove(int x, int y);
 void HandleJoystick(JOYSTATE jsJoystickState);
+BOOL SpriteCollision(Sprite* pSpriteHitter, Sprite* pSpriteHittee);
 
 //-----------------------------------------------------------------
 // GameEngine Class
@@ -64,6 +68,10 @@ protected:
 	BOOL                m_bSleep;
 	UINT                m_uiJoystickID;
 	RECT                m_rcJoystickTrip;
+	vector<Sprite*>     m_vSprites;
+
+	// Helper Methods
+	BOOL                CheckSpriteCollision(Sprite* pTestSprite);
 
 public:
 	// Constructor(s)/Destructor
@@ -77,10 +85,15 @@ public:
 	LRESULT             HandleEvent(HWND hWindow, UINT msg, WPARAM wParam,
 		LPARAM lParam);
 	void                ErrorQuit(LPTSTR szErrorMsg);
-	//BOOL                InitJoystick();
-	//void                CaptureJoystick();
-	//void                ReleaseJoystick();
-	//void                CheckJoystick();
+	BOOL                InitJoystick();
+	void                CaptureJoystick();
+	void                ReleaseJoystick();
+	void                CheckJoystick();
+	void                AddSprite(Sprite* pSprite);
+	void                DrawSprites(HDC hDC);
+	void                UpdateSprites();
+	void                CleanupSprites();
+	Sprite*             IsPointInSprite(int x, int y);
 
 	// Accessor Methods
 	HINSTANCE GetInstance() { return m_hInstance; };

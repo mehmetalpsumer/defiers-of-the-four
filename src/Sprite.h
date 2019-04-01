@@ -14,6 +14,10 @@
 //-----------------------------------------------------------------
 // Custom Data Types
 //-----------------------------------------------------------------
+typedef WORD        SPRITEACTION;
+const SPRITEACTION  SA_NONE = 0x0000L,
+SA_KILL = 0x0001L;
+
 typedef WORD        BOUNDSACTION;
 const BOUNDSACTION  BA_STOP = 0,
 BA_WRAP = 1,
@@ -28,12 +32,16 @@ class Sprite
 protected:
 	// Member Variables
 	Bitmap*       m_pBitmap;
-	RECT          m_rcPosition;
+	RECT          m_rcPosition,
+		m_rcCollision;
 	POINT         m_ptVelocity;
 	int           m_iZOrder;
 	RECT          m_rcBounds;
 	BOUNDSACTION  m_baBoundsAction;
 	BOOL          m_bHidden;
+
+	// Helper Methods
+	virtual void  CalcCollisionRect();
 
 public:
 	// Constructor(s)/Destructor
@@ -45,9 +53,10 @@ public:
 	virtual ~Sprite();
 
 	// General Methods
-	virtual void  Update();
-	void          Draw(HDC hDC);
-	BOOL          IsPointInside(int x, int y);
+	virtual SPRITEACTION  Update();
+	void                  Draw(HDC hDC);
+	BOOL                  IsPointInside(int x, int y);
+	BOOL                  TestCollision(Sprite* pTestSprite);
 
 	// Accessor Methods
 	RECT&   GetPosition() { return m_rcPosition; };
@@ -58,6 +67,7 @@ public:
 		CopyRect(&m_rcPosition, &rcPosition);
 	};
 	void    OffsetPosition(int x, int y);
+	RECT&   GetCollision() { return m_rcCollision; };
 	POINT   GetVelocity() { return m_ptVelocity; };
 	void    SetVelocity(int x, int y);
 	void    SetVelocity(POINT ptVelocity);
@@ -72,8 +82,28 @@ public:
 };
 
 //-----------------------------------------------------------------
+// Sprite Inline Helper Methods
+//-----------------------------------------------------------------
+inline void Sprite::CalcCollisionRect()
+{
+	int iXShrink = (m_rcPosition.left - m_rcPosition.right) / 12;
+	int iYShrink = (m_rcPosition.top - m_rcPosition.bottom) / 12;
+	CopyRect(&m_rcCollision, &m_rcPosition);
+	InflateRect(&m_rcCollision, iXShrink, iYShrink);
+}
+
+//-----------------------------------------------------------------
 // Sprite Inline General Methods
 //-----------------------------------------------------------------
+inline BOOL Sprite::TestCollision(Sprite* pTestSprite)
+{
+	RECT& rcTest = pTestSprite->GetCollision();
+	return m_rcCollision.left <= rcTest.right &&
+		rcTest.left <= m_rcCollision.right &&
+		m_rcCollision.top <= rcTest.bottom &&
+		rcTest.top <= m_rcCollision.bottom;
+}
+
 inline BOOL Sprite::IsPointInside(int x, int y)
 {
 	POINT ptPoint;
@@ -88,17 +118,20 @@ inline BOOL Sprite::IsPointInside(int x, int y)
 inline void Sprite::SetPosition(int x, int y)
 {
 	OffsetRect(&m_rcPosition, x - m_rcPosition.left, y - m_rcPosition.top);
+	CalcCollisionRect();
 }
 
 inline void Sprite::SetPosition(POINT ptPosition)
 {
 	OffsetRect(&m_rcPosition, ptPosition.x - m_rcPosition.left,
 		ptPosition.y - m_rcPosition.top);
+	CalcCollisionRect();
 }
 
 inline void Sprite::OffsetPosition(int x, int y)
 {
 	OffsetRect(&m_rcPosition, x, y);
+	CalcCollisionRect();
 }
 
 inline void Sprite::SetVelocity(int x, int y)
