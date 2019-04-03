@@ -329,8 +329,10 @@ void GameEngine::DrawSprites(HDC hDC)
 {
 	// Draw the sprites in the sprite vector
 	vector<Sprite*>::iterator siSprite;
-	for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)
+	for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++) {
+		printf("This is to do");
 		(*siSprite)->Draw(hDC);
+	}
 }
 
 void GameEngine::UpdateSprites()
