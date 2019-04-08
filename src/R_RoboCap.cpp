@@ -11,14 +11,14 @@
 //-----------------------------------------------------------------
 // RoboCap Constructor(s)/Destructor
 //-----------------------------------------------------------------
-R_RoboCap::R_RoboCap(Sprite *sprite, POINT position, POINT velocity, int healthPoint, int speed, char name[20], int cooldowns[2]): Character() {
-	this->sprite = sprite;
-	this->position = position;
-	this->speed = speed;
-	this->healthPoint = healthPoint;
-	this->velocity = velocity;
-	this->name = name;
-	this->cooldowns = cooldowns;
+R_RoboCap::R_RoboCap(Sprite* _sprite, POINT _position, POINT _velocity, int _healthPoint, int _speed, char _name[20], int _cooldowns[2]): Character(_sprite, _position, _velocity, _healthPoint, _speed) {
+	this->sprite = _sprite;
+	this->position = _position;
+	this->speed = _speed;
+	this->healthPoint = _healthPoint;
+	this->velocity = _velocity;
+	this->name = _name;
+	this->cooldowns = _cooldowns;
 }
 
 R_RoboCap::~R_RoboCap()
@@ -31,5 +31,5 @@ R_RoboCap::~R_RoboCap()
 //-----------------------------------------------------------------
 
 //-----------------------------------------------------------------
-// RoboCap Getters and Setters
+// RoboCap Accessor Methods
 //-----------------------------------------------------------------

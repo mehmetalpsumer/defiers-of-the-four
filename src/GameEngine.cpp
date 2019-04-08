@@ -11,22 +11,22 @@
 //-----------------------------------------------------------------
 // Static Variable Initialization
 //-----------------------------------------------------------------
-GameEngine *GameEngine::m_pGameEngine = NULL;
+GameEngine *GameEngine::gameEngine = NULL;
 
 //-----------------------------------------------------------------
 // Windows Functions
 //-----------------------------------------------------------------
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
-	PSTR szCmdLine, int iCmdShow)
+int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance,
+	PSTR _cmdLine, int _cmdShow)
 {
 	MSG         msg;
 	static int  iTickTrigger = 0;
 	int         iTickCount;
 
-	if (GameInitialize(hInstance))
+	if (GameInitialize(_hInstance))
 	{
 		// Initialize the game engine
-		if (!GameEngine::GetEngine()->Initialize(iCmdShow))
+		if (!GameEngine::GetEngine()->Initialize(_cmdShow))
 			return FALSE;
 
 		// Enter the main message loop
@@ -67,35 +67,35 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	return TRUE;
 }
 
-LRESULT CALLBACK WndProc(HWND hWindow, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK WndProc(HWND _hWindow, UINT _msg, WPARAM _wParam, LPARAM _lParam)
 {
 	// Route all Windows messages to the game engine
-	return GameEngine::GetEngine()->HandleEvent(hWindow, msg, wParam, lParam);
+	return GameEngine::GetEngine()->HandleEvent(_hWindow, _msg, _wParam, _lParam);
 }
 
 
 //-----------------------------------------------------------------
 // GameEngine Constructor(s)/Destructor
 //-----------------------------------------------------------------
-GameEngine::GameEngine(HINSTANCE hInstance, LPTSTR szWindowClass,
-	LPTSTR szTitle, WORD wIcon, WORD wSmallIcon, int iWidth, int iHeight)
+GameEngine::GameEngine(HINSTANCE _hInstance, LPTSTR _windowClass,
+	LPTSTR _title, WORD _icon, WORD _smallIcon, int _width, int _height)
 {
 	// Set the member variables for the game engine
-	m_pGameEngine = this;
-	m_hInstance = hInstance;
-	m_hWindow = NULL;
-	if (lstrlen(szWindowClass) > 0)
-		lstrcpy(m_szWindowClass, szWindowClass);
-	if (lstrlen(szTitle) > 0)
-		lstrcpy(m_szTitle, szTitle);
-	m_wIcon = wIcon;
-	m_wSmallIcon = wSmallIcon;
-	m_iWidth = iWidth;
-	m_iHeight = iHeight;
-	m_iFrameDelay = 50;   // 20 FPS default
-	m_bSleep = TRUE;
-	m_uiJoystickID = 0;
-	m_vSprites.reserve(50);
+	gameEngine = this;
+	hInstance = _hInstance;
+	hWindow = NULL;
+	if (lstrlen(_windowClass) > 0)
+		lstrcpy(windowClass, _windowClass);
+	if (lstrlen(_title) > 0)
+		lstrcpy(title, _title);
+	icon = _icon;
+	smallIcon = _smallIcon;
+	width = _width;
+	height = _height;
+	frameDelay = 50;   // 20 FPS default
+	sleep = TRUE;
+	joystickID = 0;
+	sprites.reserve(50);
 }
 
 GameEngine::~GameEngine()
@@ -105,7 +105,7 @@ GameEngine::~GameEngine()
 //-----------------------------------------------------------------
 // Game Engine General Methods
 //-----------------------------------------------------------------
-BOOL GameEngine::Initialize(int iCmdShow)
+BOOL GameEngine::Initialize(int _cmdShow)
 {
 	WNDCLASSEX    wndclass;
 
@@ -115,23 +115,23 @@ BOOL GameEngine::Initialize(int iCmdShow)
 	wndclass.lpfnWndProc = WndProc;
 	wndclass.cbClsExtra = 0;
 	wndclass.cbWndExtra = 0;
-	wndclass.hInstance = m_hInstance;
-	wndclass.hIcon = LoadIcon(m_hInstance,
+	wndclass.hInstance = hInstance;
+	wndclass.hIcon = LoadIcon(hInstance,
 		MAKEINTRESOURCE(GetIcon()));
-	wndclass.hIconSm = LoadIcon(m_hInstance,
+	wndclass.hIconSm = LoadIcon(hInstance,
 		MAKEINTRESOURCE(GetSmallIcon()));
 	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	wndclass.lpszMenuName = NULL;
-	wndclass.lpszClassName = m_szWindowClass;
+	wndclass.lpszClassName = windowClass;
 
 	// Register the window class
 	if (!RegisterClassEx(&wndclass))
 		return FALSE;
 
 	// Calculate the window size and position based upon the game size
-	int iWindowWidth = m_iWidth + GetSystemMetrics(SM_CXFIXEDFRAME) * 2,
-		iWindowHeight = m_iHeight + GetSystemMetrics(SM_CYFIXEDFRAME) * 2 +
+	int iWindowWidth = width + GetSystemMetrics(SM_CXFIXEDFRAME) * 2,
+		iWindowHeight = height + GetSystemMetrics(SM_CYFIXEDFRAME) * 2 +
 		GetSystemMetrics(SM_CYCAPTION);
 	if (wndclass.lpszMenuName != NULL)
 		iWindowHeight += GetSystemMetrics(SM_CYMENU);
@@ -139,40 +139,40 @@ BOOL GameEngine::Initialize(int iCmdShow)
 		iYWindowPos = (GetSystemMetrics(SM_CYSCREEN) - iWindowHeight) / 2;
 
 	// Create the window
-	m_hWindow = CreateWindow(m_szWindowClass, m_szTitle, WS_POPUPWINDOW |
+	hWindow = CreateWindow(windowClass, title, WS_POPUPWINDOW |
 		WS_CAPTION | WS_MINIMIZEBOX, iXWindowPos, iYWindowPos, iWindowWidth,
-		iWindowHeight, NULL, NULL, m_hInstance, NULL);
-	if (!m_hWindow)
+		iWindowHeight, NULL, NULL, hInstance, NULL);
+	if (!hWindow)
 		return FALSE;
 
 	// Show and update the window
-	ShowWindow(m_hWindow, iCmdShow);
-	UpdateWindow(m_hWindow);
+	ShowWindow(hWindow, _cmdShow);
+	UpdateWindow(hWindow);
 
 	return TRUE;
 }
 
-LRESULT GameEngine::HandleEvent(HWND hWindow, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT GameEngine::HandleEvent(HWND _hWindow, UINT _msg, WPARAM _wParam, LPARAM _lParam)
 {
 	// Route Windows messages to game engine member functions
-	switch (msg)
+	switch (_msg)
 	{
 	case WM_CREATE:
 		// Set the game window and start the game
-		SetWindow(hWindow);
-		GameStart(hWindow);
+		SetWindow(_hWindow);
+		GameStart(_hWindow);
 		return 0;
 
 	case WM_ACTIVATE:
 		// Activate/deactivate the game and update the Sleep status
-		if (wParam != WA_INACTIVE)
+		if (_wParam != WA_INACTIVE)
 		{
-			GameActivate(hWindow);
+			GameActivate(_hWindow);
 			SetSleep(FALSE);
 		}
 		else
 		{
-			GameDeactivate(hWindow);
+			GameDeactivate(_hWindow);
 			SetSleep(TRUE);
 		}
 		return 0;
@@ -180,37 +180,37 @@ LRESULT GameEngine::HandleEvent(HWND hWindow, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_PAINT:
 		HDC         hDC;
 		PAINTSTRUCT ps;
-		hDC = BeginPaint(hWindow, &ps);
+		hDC = BeginPaint(_hWindow, &ps);
 
 		// Paint the game
 		GamePaint(hDC);
 
-		EndPaint(hWindow, &ps);
+		EndPaint(_hWindow, &ps);
 		return 0;
 
 	case WM_LBUTTONDOWN:
 		// Handle left mouse button press
-		MouseButtonDown(LOWORD(lParam), HIWORD(lParam), TRUE);
+		MouseButtonDown(LOWORD(_lParam), HIWORD(_lParam), TRUE);
 		return 0;
 
 	case WM_LBUTTONUP:
 		// Handle left mouse button release
-		MouseButtonUp(LOWORD(lParam), HIWORD(lParam), TRUE);
+		MouseButtonUp(LOWORD(_lParam), HIWORD(_lParam), TRUE);
 		return 0;
 
 	case WM_RBUTTONDOWN:
 		// Handle right mouse button press
-		MouseButtonDown(LOWORD(lParam), HIWORD(lParam), FALSE);
+		MouseButtonDown(LOWORD(_lParam), HIWORD(_lParam), FALSE);
 		return 0;
 
 	case WM_RBUTTONUP:
 		// Handle right mouse button release
-		MouseButtonUp(LOWORD(lParam), HIWORD(lParam), FALSE);
+		MouseButtonUp(LOWORD(_lParam), HIWORD(_lParam), FALSE);
 		return 0;
 
 	case WM_MOUSEMOVE:
 		// Handle mouse movement
-		MouseMove(LOWORD(lParam), HIWORD(lParam));
+		MouseMove(LOWORD(_lParam), HIWORD(_lParam));
 		return 0;
 
 	case WM_DESTROY:
@@ -219,12 +219,12 @@ LRESULT GameEngine::HandleEvent(HWND hWindow, UINT msg, WPARAM wParam, LPARAM lP
 		PostQuitMessage(0);
 		return 0;
 	}
-	return DefWindowProc(hWindow, msg, wParam, lParam);
+	return DefWindowProc(_hWindow, _msg, _wParam, _lParam);
 }
 
-void GameEngine::ErrorQuit(LPTSTR szErrorMsg)
+void GameEngine::ErrorQuit(LPTSTR _errorMsg)
 {
-	MessageBox(GetWindow(), szErrorMsg, TEXT("Critical Error"), MB_OK | MB_ICONERROR);
+	MessageBox(GetWindow(), _errorMsg, TEXT("Critical Error"), MB_OK | MB_ICONERROR);
 	PostQuitMessage(0);
 }
 
@@ -238,19 +238,19 @@ BOOL GameEngine::InitJoystick()
 	// Make sure the joystick is attached
 	JOYINFO jiInfo;
 	if (joyGetPos(JOYSTICKID1, &jiInfo) != JOYERR_UNPLUGGED)
-		m_uiJoystickID = JOYSTICKID1;
+		joystickID = JOYSTICKID1;
 	else
 		return FALSE;
 
 	// Calculate the trip values
 	JOYCAPS jcCaps;
-	joyGetDevCaps(m_uiJoystickID, &jcCaps, sizeof(JOYCAPS));
+	joyGetDevCaps(joystickID, &jcCaps, sizeof(JOYCAPS));
 	DWORD dwXCenter = ((DWORD)jcCaps.wXmin + jcCaps.wXmax) / 2;
 	DWORD dwYCenter = ((DWORD)jcCaps.wYmin + jcCaps.wYmax) / 2;
-	m_rcJoystickTrip.left = (jcCaps.wXmin + (WORD)dwXCenter) / 2;
-	m_rcJoystickTrip.right = (jcCaps.wXmax + (WORD)dwXCenter) / 2;
-	m_rcJoystickTrip.top = (jcCaps.wYmin + (WORD)dwYCenter) / 2;
-	m_rcJoystickTrip.bottom = (jcCaps.wYmax + (WORD)dwYCenter) / 2;
+	joystickTrip.left = (jcCaps.wXmin + (WORD)dwXCenter) / 2;
+	joystickTrip.right = (jcCaps.wXmax + (WORD)dwXCenter) / 2;
+	joystickTrip.top = (jcCaps.wYmin + (WORD)dwYCenter) / 2;
+	joystickTrip.bottom = (jcCaps.wYmax + (WORD)dwYCenter) / 2;
 
 	return TRUE;
 }
@@ -258,35 +258,35 @@ BOOL GameEngine::InitJoystick()
 void GameEngine::CaptureJoystick()
 {
 	// Capture the joystick
-	if (m_uiJoystickID == JOYSTICKID1)
-		joySetCapture(m_hWindow, m_uiJoystickID, NULL, TRUE);
+	if (joystickID == JOYSTICKID1)
+		joySetCapture(hWindow, joystickID, NULL, TRUE);
 }
 
 void GameEngine::ReleaseJoystick()
 {
 	// Release the joystick
-	if (m_uiJoystickID == JOYSTICKID1)
-		joyReleaseCapture(m_uiJoystickID);
+	if (joystickID == JOYSTICKID1)
+		joyReleaseCapture(joystickID);
 }
 
 void GameEngine::CheckJoystick()
 {
-	if (m_uiJoystickID == JOYSTICKID1)
+	if (joystickID == JOYSTICKID1)
 	{
 		JOYINFO jiInfo;
 		JOYSTATE jsJoystickState = 0;
-		if (joyGetPos(m_uiJoystickID, &jiInfo) == JOYERR_NOERROR)
+		if (joyGetPos(joystickID, &jiInfo) == JOYERR_NOERROR)
 		{
 			// Check horizontal movement
-			if (jiInfo.wXpos < (WORD)m_rcJoystickTrip.left)
+			if (jiInfo.wXpos < (WORD)joystickTrip.left)
 				jsJoystickState |= JOY_LEFT;
-			else if (jiInfo.wXpos > (WORD)m_rcJoystickTrip.right)
+			else if (jiInfo.wXpos > (WORD)joystickTrip.right)
 				jsJoystickState |= JOY_RIGHT;
 
 			// Check vertical movement
-			if (jiInfo.wYpos < (WORD)m_rcJoystickTrip.top)
+			if (jiInfo.wYpos < (WORD)joystickTrip.top)
 				jsJoystickState |= JOY_UP;
-			else if (jiInfo.wYpos > (WORD)m_rcJoystickTrip.bottom)
+			else if (jiInfo.wYpos > (WORD)joystickTrip.bottom)
 				jsJoystickState |= JOY_DOWN;
 
 			// Check buttons
@@ -301,37 +301,37 @@ void GameEngine::CheckJoystick()
 	}
 }
 
-void GameEngine::AddSprite(Sprite* pSprite)
+void GameEngine::AddSprite(Sprite* _sprite)
 {
 	// Add a sprite to the sprite vector
-	if (pSprite != NULL)
+	if (_sprite != NULL)
 	{
 		// See if there are sprites already in the sprite vector
-		if (m_vSprites.size() > 0)
+		if (sprites.size() > 0)
 		{
 			// Find a spot in the sprite vector to insert the sprite by its z-order
 			vector<Sprite*>::iterator siSprite;
-			for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)
-				if (pSprite->GetZOrder() < (*siSprite)->GetZOrder())
+			for (siSprite = sprites.begin(); siSprite != sprites.end(); siSprite++)
+				if (_sprite->GetZOrder() < (*siSprite)->GetZOrder())
 				{
 					// Insert the sprite into the sprite vector
-					m_vSprites.insert(siSprite, pSprite);
+					sprites.insert(siSprite, _sprite);
 					return;
 				}
 		}
 
 		// The sprite's z-order is highest, so add it to the end of the vector
-		m_vSprites.push_back(pSprite);
+		sprites.push_back(_sprite);
 	}
 }
 
-void GameEngine::DrawSprites(HDC hDC)
+void GameEngine::DrawSprites(HDC _hDC)
 {
 	// Draw the sprites in the sprite vector
 	vector<Sprite*>::iterator siSprite;
-	for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++) {
+	for (siSprite = sprites.begin(); siSprite != sprites.end(); siSprite++) {
 		printf("This is to do");
-		(*siSprite)->Draw(hDC);
+		(*siSprite)->Draw(_hDC);
 	}
 }
 
@@ -341,7 +341,7 @@ void GameEngine::UpdateSprites()
 	RECT          rcOldSpritePos;
 	SPRITEACTION  saSpriteAction;
 	vector<Sprite*>::iterator siSprite;
-	for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)
+	for (siSprite = sprites.begin(); siSprite != sprites.end(); siSprite++)
 	{
 		// Save the old sprite position in case we need to restore it
 		rcOldSpritePos = (*siSprite)->GetPosition();
@@ -353,7 +353,7 @@ void GameEngine::UpdateSprites()
 		if (saSpriteAction & SA_KILL)
 		{
 			delete (*siSprite);
-			m_vSprites.erase(siSprite);
+			sprites.erase(siSprite);
 			siSprite--;
 			continue;
 		}
@@ -368,20 +368,20 @@ void GameEngine::UpdateSprites()
 //-----------------------------------------------------------------
 // Game Engine Helper Methods
 //-----------------------------------------------------------------
-BOOL GameEngine::CheckSpriteCollision(Sprite* pTestSprite)
+BOOL GameEngine::CheckSpriteCollision(Sprite* _testSprite)
 {
 	// See if the sprite has collided with any other sprites
 	vector<Sprite*>::iterator siSprite;
-	for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)
+	for (siSprite = sprites.begin(); siSprite != sprites.end(); siSprite++)
 	{
 		// Make sure not to check for collision with itself
-		if (pTestSprite == (*siSprite))
+		if (_testSprite == (*siSprite))
 			continue;
 
 		// Test the collision
-		if (pTestSprite->TestCollision(*siSprite))
+		if (_testSprite->TestCollision(*siSprite))
 			// Collision detected
-			return SpriteCollision((*siSprite), pTestSprite);
+			return SpriteCollision((*siSprite), _testSprite);
 	}
 
 	// No collision
@@ -393,7 +393,7 @@ void GameEngine::CleanupSprites()
 	Sprite* sprt2;
 	// Delete and remove the sprites in the sprite vector
 	vector<Sprite*>::iterator siSprite;
-	for (siSprite = m_vSprites.begin(); siSprite != m_vSprites.end(); siSprite++)
+	for (siSprite = sprites.begin(); siSprite != sprites.end(); siSprite++)
 	{
 		delete (*siSprite);
 		//m_vSprites.erase(siSprite);
@@ -401,12 +401,12 @@ void GameEngine::CleanupSprites()
 	}
 }
 
-Sprite* GameEngine::IsPointInSprite(int x, int y)
+Sprite* GameEngine::IsPointInSprite(int _x, int _y)
 {
 	// See if the point is in a sprite in the sprite vector
 	vector<Sprite*>::reverse_iterator siSprite;
-	for (siSprite = m_vSprites.rbegin(); siSprite != m_vSprites.rend(); siSprite++)
-		if (!(*siSprite)->IsHidden() && (*siSprite)->IsPointInside(x, y))
+	for (siSprite = sprites.rbegin(); siSprite != sprites.rend(); siSprite++)
+		if (!(*siSprite)->IsHidden() && (*siSprite)->IsPointInside(_x, _y))
 			return (*siSprite);
 
 	// The point is not in a sprite

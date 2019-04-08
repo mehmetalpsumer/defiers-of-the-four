@@ -36,9 +36,10 @@ protected:
 
 public:
 	// Constructor(s)/Destructor
-	R_RoboCap(Sprite *sprite, POINT position, POINT velocity, int healthPoint, int speed, char name[20], int cooldowns[2]);
+	R_RoboCap(Sprite* _sprite, POINT _position, POINT _velocity, int _healthPoint, int _speed, char _name[20], int _cooldowns[2]);
 	virtual ~R_RoboCap();
 
 	// General Methods
+	// Accessor Methods
 
 };

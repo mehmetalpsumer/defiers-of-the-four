@@ -31,54 +31,53 @@ class Sprite
 {
 protected:
 	// Member Variables
-	Bitmap*       m_pBitmap;
-	RECT          m_rcPosition,
-		m_rcCollision;
-	POINT         m_ptVelocity;
-	int           m_iZOrder;
-	RECT          m_rcBounds;
-	BOUNDSACTION  m_baBoundsAction;
-	BOOL          m_bHidden;
+	Bitmap*       bitmap;
+	RECT          position, collisionRect;
+	POINT         velocity;
+	int           zOrder;
+	RECT          bounds;
+	BOUNDSACTION  boundsAction;
+	BOOL          isHidden;
 
 	// Helper Methods
 	virtual void  CalcCollisionRect();
 
 public:
 	// Constructor(s)/Destructor
-	Sprite(Bitmap* pBitmap);
-	Sprite(Bitmap* pBitmap, RECT& rcBounds,
-		BOUNDSACTION baBoundsAction = BA_STOP);
-	Sprite(Bitmap* pBitmap, POINT ptPosition, POINT ptVelocity, int iZOrder,
-		RECT& rcBounds, BOUNDSACTION baBoundsAction = BA_STOP);
+	Sprite(Bitmap* _bitmap);
+	Sprite(Bitmap* _bitmap, RECT& _bounds,
+		BOUNDSACTION _boundsAction = BA_STOP);
+	Sprite(Bitmap* _bitmap, POINT _position, POINT _velocity, int _zOrder,
+		RECT& _bounds, BOUNDSACTION _boundsAction = BA_STOP);
 	virtual ~Sprite();
 
 	// General Methods
 	virtual SPRITEACTION  Update();
-	void                  Draw(HDC hDC);
-	BOOL                  IsPointInside(int x, int y);
-	BOOL                  TestCollision(Sprite* pTestSprite);
+	void                  Draw(HDC _hDC);
+	BOOL                  IsPointInside(int _x, int _y);
+	BOOL                  TestCollision(Sprite* _testSprite);
 
 	// Accessor Methods
-	RECT&   GetPosition() { return m_rcPosition; };
-	void    SetPosition(int x, int y);
-	void    SetPosition(POINT ptPosition);
-	void    SetPosition(RECT& rcPosition)
+	RECT&   GetPosition() { return position; };
+	void    SetPosition(int _x, int _y);
+	void    SetPosition(POINT _position);
+	void    SetPosition(RECT& _position)
 	{
-		CopyRect(&m_rcPosition, &rcPosition);
+		CopyRect(&position, &_position);
 	};
-	void    OffsetPosition(int x, int y);
-	RECT&   GetCollision() { return m_rcCollision; };
-	POINT   GetVelocity() { return m_ptVelocity; };
-	void    SetVelocity(int x, int y);
-	void    SetVelocity(POINT ptVelocity);
-	BOOL    GetZOrder() { return m_iZOrder; };
-	void    SetZOrder(int iZOrder) { m_iZOrder = iZOrder; };
-	void    SetBounds(RECT& rcBounds) { CopyRect(&m_rcBounds, &rcBounds); };
-	void    SetBoundsAction(BOUNDSACTION ba) { m_baBoundsAction = ba; };
-	BOOL    IsHidden() { return m_bHidden; };
-	void    SetHidden(BOOL bHidden) { m_bHidden = bHidden; };
-	int     GetWidth() { return m_pBitmap->GetWidth(); };
-	int     GetHeight() { return m_pBitmap->GetHeight(); };
+	void    OffsetPosition(int _x, int _y);
+	RECT&   GetCollision() { return collisionRect; };
+	POINT   GetVelocity() { return velocity; };
+	void    SetVelocity(int _x, int _y);
+	void    SetVelocity(POINT _velocity);
+	BOOL    GetZOrder() { return zOrder; };
+	void    SetZOrder(int _zOrder) { zOrder = _zOrder; };
+	void    SetBounds(RECT& _bounds) { CopyRect(&bounds, &_bounds); };
+	void    SetBoundsAction(BOUNDSACTION ba) { boundsAction = ba; };
+	BOOL    IsHidden() { return isHidden; };
+	void    SetHidden(BOOL _isHidden) { isHidden = _isHidden; };
+	int     GetWidth() { return bitmap->GetWidth(); };
+	int     GetHeight() { return bitmap->GetHeight(); };
 };
 
 //-----------------------------------------------------------------
@@ -86,62 +85,62 @@ public:
 //-----------------------------------------------------------------
 inline void Sprite::CalcCollisionRect()
 {
-	int iXShrink = (m_rcPosition.left - m_rcPosition.right) / 12;
-	int iYShrink = (m_rcPosition.top - m_rcPosition.bottom) / 12;
-	CopyRect(&m_rcCollision, &m_rcPosition);
-	InflateRect(&m_rcCollision, iXShrink, iYShrink);
+	int iXShrink = (position.left - position.right) / 12;
+	int iYShrink = (position.top - position.bottom) / 12;
+	CopyRect(&collisionRect, &position);
+	InflateRect(&collisionRect, iXShrink, iYShrink);
 }
 
 //-----------------------------------------------------------------
 // Sprite Inline General Methods
 //-----------------------------------------------------------------
-inline BOOL Sprite::TestCollision(Sprite* pTestSprite)
+inline BOOL Sprite::TestCollision(Sprite* _testSprite)
 {
-	RECT& rcTest = pTestSprite->GetCollision();
-	return m_rcCollision.left <= rcTest.right &&
-		rcTest.left <= m_rcCollision.right &&
-		m_rcCollision.top <= rcTest.bottom &&
-		rcTest.top <= m_rcCollision.bottom;
+	RECT& rcTest = _testSprite->GetCollision();
+	return collisionRect.left <= rcTest.right &&
+		rcTest.left <= collisionRect.right &&
+		collisionRect.top <= rcTest.bottom &&
+		rcTest.top <= collisionRect.bottom;
 }
 
-inline BOOL Sprite::IsPointInside(int x, int y)
+inline BOOL Sprite::IsPointInside(int _x, int _y)
 {
 	POINT ptPoint;
-	ptPoint.x = x;
-	ptPoint.y = y;
-	return PtInRect(&m_rcPosition, ptPoint);
+	ptPoint.x = _x;
+	ptPoint.y = _y;
+	return PtInRect(&position, ptPoint);
 }
 
 //-----------------------------------------------------------------
 // Sprite Inline Accessor Methods
 //-----------------------------------------------------------------
-inline void Sprite::SetPosition(int x, int y)
+inline void Sprite::SetPosition(int _x, int _y)
 {
-	OffsetRect(&m_rcPosition, x - m_rcPosition.left, y - m_rcPosition.top);
+	OffsetRect(&position, _x - position.left, _y - position.top);
 	CalcCollisionRect();
 }
 
-inline void Sprite::SetPosition(POINT ptPosition)
+inline void Sprite::SetPosition(POINT _position)
 {
-	OffsetRect(&m_rcPosition, ptPosition.x - m_rcPosition.left,
-		ptPosition.y - m_rcPosition.top);
+	OffsetRect(&position, _position.x - position.left,
+		_position.y - position.top);
 	CalcCollisionRect();
 }
 
-inline void Sprite::OffsetPosition(int x, int y)
+inline void Sprite::OffsetPosition(int _x, int _y)
 {
-	OffsetRect(&m_rcPosition, x, y);
+	OffsetRect(&position, _x, _y);
 	CalcCollisionRect();
 }
 
-inline void Sprite::SetVelocity(int x, int y)
+inline void Sprite::SetVelocity(int _x, int _y)
 {
-	m_ptVelocity.x = x;
-	m_ptVelocity.y = y;
+	velocity.x = _x;
+	velocity.y = _y;
 }
 
-inline void Sprite::SetVelocity(POINT ptVelocity)
+inline void Sprite::SetVelocity(POINT _velocity)
 {
-	m_ptVelocity.x = ptVelocity.x;
-	m_ptVelocity.y = ptVelocity.y;
+	velocity.x = _velocity.x;
+	velocity.y = _velocity.y;
 }

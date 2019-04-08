@@ -24,15 +24,14 @@ class Character {
 		int speed;
 	public:
 		// Constructor(s)/Destructor
-		Character();
-		Character(Sprite *sprite, POINT position, POINT velocity, int healthPoint, int speed);
+		Character(Sprite* _sprite, POINT _position, POINT _velocity, int _healthPoint, int _speed);
 		virtual ~Character();
 
 		// General methods
 		void Move();
 		void Fire(POINT target);
 
-		// Getters and setters
-		Sprite* GetSprite();
-		int GetSpeed();
+		// Accessor methods
+		Sprite* GetSprite() { return sprite; };
+		int GetSpeed() { return speed; };
 };

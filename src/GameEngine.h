@@ -57,58 +57,55 @@ class GameEngine
 {
 protected:
 	// Member Variables
-	static GameEngine*  m_pGameEngine;
-	HINSTANCE           m_hInstance;
-	HWND                m_hWindow;
-	TCHAR               m_szWindowClass[32];
-	TCHAR               m_szTitle[32];
-	WORD                m_wIcon, m_wSmallIcon;
-	int                 m_iWidth, m_iHeight;
-	int                 m_iFrameDelay;
-	BOOL                m_bSleep;
-	UINT                m_uiJoystickID;
-	RECT                m_rcJoystickTrip;
-	vector<Sprite*>     m_vSprites;
+	static GameEngine*  gameEngine;
+	HINSTANCE           hInstance;
+	HWND                hWindow;
+	TCHAR               windowClass[32];
+	TCHAR               title[32];
+	WORD                icon, smallIcon;
+	int                 width, height;
+	int                 frameDelay;
+	BOOL                sleep;
+	UINT                joystickID;
+	RECT                joystickTrip;
+	vector<Sprite*>     sprites;
 
 	// Helper Methods
-	BOOL                CheckSpriteCollision(Sprite* pTestSprite);
+	BOOL                CheckSpriteCollision(Sprite* _testSprite);
 
 public:
 	// Constructor(s)/Destructor
-	GameEngine(HINSTANCE hInstance, LPTSTR szWindowClass, LPTSTR szTitle,
-		WORD wIcon, WORD wSmallIcon, int iWidth = 640, int iHeight = 480);
+	GameEngine(HINSTANCE _hInstance, LPTSTR _windowClass , LPTSTR _title,
+		WORD _icon, WORD _smallIcon, int _width = 640, int _height = 480);
 	virtual ~GameEngine();
 
 	// General Methods
-	static GameEngine*  GetEngine() { return m_pGameEngine; };
-	BOOL                Initialize(int iCmdShow);
-	LRESULT             HandleEvent(HWND hWindow, UINT msg, WPARAM wParam,
+	static GameEngine*  GetEngine() { return gameEngine; };
+	BOOL                Initialize(int _cmdShow);
+	LRESULT             HandleEvent(HWND _hWindow, UINT _msg, WPARAM _wParam,
 		LPARAM lParam);
-	void                ErrorQuit(LPTSTR szErrorMsg);
+	void                ErrorQuit(LPTSTR _errorMsg);
 	BOOL                InitJoystick();
 	void                CaptureJoystick();
 	void                ReleaseJoystick();
 	void                CheckJoystick();
-	void                AddSprite(Sprite* pSprite);
-	void                DrawSprites(HDC hDC);
+	void                AddSprite(Sprite* _sprite);
+	void                DrawSprites(HDC _hDC);
 	void                UpdateSprites();
 	void                CleanupSprites();
-	Sprite*             IsPointInSprite(int x, int y);
+	Sprite*             IsPointInSprite(int _x, int _y);
 
 	// Accessor Methods
-	HINSTANCE GetInstance() { return m_hInstance; };
-	HWND      GetWindow() { return m_hWindow; };
-	void      SetWindow(HWND hWindow) { m_hWindow = hWindow; };
-	LPTSTR    GetTitle() { return m_szTitle; };
-	WORD      GetIcon() { return m_wIcon; };
-	WORD      GetSmallIcon() { return m_wSmallIcon; };
-	int       GetWidth() { return m_iWidth; };
-	int       GetHeight() { return m_iHeight; };
-	int       GetFrameDelay() { return m_iFrameDelay; };
-	void      SetFrameRate(int iFrameRate) {
-		m_iFrameDelay = 1000 /
-			iFrameRate;
-	};
-	BOOL      GetSleep() { return m_bSleep; };
-	void      SetSleep(BOOL bSleep) { m_bSleep = bSleep; };
+	HINSTANCE GetInstance() { return hInstance; };
+	HWND      GetWindow() { return hWindow; };
+	void      SetWindow(HWND _hWindow) { hWindow = _hWindow; };
+	LPTSTR    GetTitle() { return title; };
+	WORD      GetIcon() { return icon; };
+	WORD      GetSmallIcon() { return smallIcon; };
+	int       GetWidth() { return width; };
+	int       GetHeight() { return height; };
+	int       GetFrameDelay() { return frameDelay; };
+	void      SetFrameRate(int _frameRate) { frameDelay = 1000 / _frameRate; };
+	BOOL      GetSleep() { return sleep; };
+	void      SetSleep(BOOL _sleep) { sleep = _sleep; };
 };
