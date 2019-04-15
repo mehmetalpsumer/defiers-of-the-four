@@ -11,10 +11,11 @@
 //-----------------------------------------------------------------
 // Sprite Constructor(s)/Destructor
 //-----------------------------------------------------------------
-Sprite::Sprite(Bitmap* _bitmap)
-{
+Sprite::Sprite(Bitmap* _bitmap) {
 	// Initialize the member variables
 	bitmap = _bitmap;
+	numFrames = 1;
+	curFrame = frameDelay = frameTrigger = 0;
 	SetRect(&position, 0, 0, _bitmap->GetWidth(), _bitmap->GetHeight());
 	CalcCollisionRect();
 	velocity.x = velocity.y = 0;
@@ -24,14 +25,15 @@ Sprite::Sprite(Bitmap* _bitmap)
 	isHidden = FALSE;
 }
 
-Sprite::Sprite(Bitmap* _bitmap, RECT& _bounds, BOUNDSACTION _boundsAction)
-{
+Sprite::Sprite(Bitmap* _bitmap, RECT& _bounds, BOUNDSACTION _boundsAction) {
 	// Calculate a random position
 	int iXPos = rand() % (_bounds.right - _bounds.left);
 	int iYPos = rand() % (_bounds.bottom - _bounds.top);
 
 	// Initialize the member variables
 	bitmap = _bitmap;
+	numFrames = 1;
+	curFrame = frameDelay = frameTrigger = 0;
 	SetRect(&position, iXPos, iYPos, iXPos + _bitmap->GetWidth(),
 		iYPos + _bitmap->GetHeight());
 	CalcCollisionRect();
@@ -43,10 +45,11 @@ Sprite::Sprite(Bitmap* _bitmap, RECT& _bounds, BOUNDSACTION _boundsAction)
 }
 
 Sprite::Sprite(Bitmap* _bitmap, POINT _position, POINT _velocity, int _zOrder,
-	RECT& _bounds, BOUNDSACTION _boundsAction)
-{
+	RECT& _bounds, BOUNDSACTION _boundsAction) {
 	// Initialize the member variables
 	bitmap = _bitmap;
+	numFrames = 1;
+	curFrame = frameDelay = frameTrigger = 0;
 	SetRect(&position, _position.x, _position.y, _bitmap->GetWidth(),
 		_bitmap->GetHeight());
 	CalcCollisionRect();
@@ -57,15 +60,13 @@ Sprite::Sprite(Bitmap* _bitmap, POINT _position, POINT _velocity, int _zOrder,
 	isHidden = FALSE;
 }
 
-Sprite::~Sprite()
-{
+Sprite::~Sprite() {
 }
 
 //-----------------------------------------------------------------
 // Sprite General Methods
 //-----------------------------------------------------------------
-SPRITEACTION Sprite::Update()
-{
+SPRITEACTION Sprite::Update() {
 	// Update the position
 	POINT ptNewPosition, ptSpriteSize, ptBoundsSize;
 	ptNewPosition.x = position.left + velocity.x;
@@ -152,9 +153,17 @@ SPRITEACTION Sprite::Update()
 	return SA_NONE;
 }
 
-void Sprite::Draw(HDC _hDC)
-{
+void Sprite::Draw(HDC _hDC) {
 	// Draw the sprite if it isn't hidden
 	if (bitmap != NULL && !isHidden)
-		bitmap->Draw(_hDC, position.left, position.top, TRUE);
+	{
+		// Draw the appropriate frame, if necessary
+		if (numFrames == 1) {
+			bitmap->Draw(_hDC, collisionRect.left, collisionRect.top, TRUE);
+		}
+		else {
+			bitmap->DrawPart(_hDC, collisionRect.left, collisionRect.top,
+				curFrame * GetWidth(), 0, GetWidth(), GetHeight(), TRUE);
+		}
+	}
 }

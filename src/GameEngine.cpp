@@ -20,8 +20,8 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance,
 	PSTR _cmdLine, int _cmdShow)
 {
 	MSG         msg;
-	static int  iTickTrigger = 0;
-	int         iTickCount;
+	static int  tickTrigger = 0;
+	int         tickCount;
 
 	if (GameInitialize(_hInstance))
 	{
@@ -46,10 +46,10 @@ int WINAPI WinMain(HINSTANCE _hInstance, HINSTANCE _hPrevInstance,
 				if (!GameEngine::GetEngine()->GetSleep())
 				{
 					// Check the tick count to see if a game cycle has elapsed
-					iTickCount = GetTickCount();
-					if (iTickCount > iTickTrigger)
+					tickCount = GetTickCount();
+					if (tickCount > tickTrigger)
 					{
-						iTickTrigger = iTickCount +
+						tickTrigger = tickCount +
 							GameEngine::GetEngine()->GetFrameDelay();
 						HandleKeys();
 						GameEngine::GetEngine()->CheckJoystick();

@@ -46,6 +46,9 @@ public:
 	BOOL Create(HDC _hDC, int _width, int _height, COLORREF _color);
 	void Draw(HDC _hDC, int _x, int _y, BOOL _isTrans = FALSE,
 		COLORREF _transColor = RGB(255, 0, 255));
+	void DrawPart(HDC _hDC, int _x, int _y, int _xPart, int _yPart,
+		int _wPart, int _hPart, BOOL _isTrans = FALSE,
+		COLORREF crTransColor = RGB(255, 0, 255));
 	int  GetWidth() { return width; };
 	int  GetHeight() { return height; };
 };

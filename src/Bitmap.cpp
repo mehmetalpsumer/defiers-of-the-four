@@ -232,3 +232,27 @@ void Bitmap::Draw(HDC _hDC, int _x, int _y, BOOL _isTrans, COLORREF _transColor)
 		DeleteDC(hMemDC);
 	}
 }
+
+void Bitmap::DrawPart(HDC _hDC, int _x, int _y, int _xPart, int _yPart,
+	int _wPart, int _hPart, BOOL _isTrans, COLORREF _transColor)
+{
+	if (hBitmap != NULL)
+	{
+		// Create a memory device context for the bitmap
+		HDC hMemDC = CreateCompatibleDC(_hDC);
+
+		// Select the bitmap into the device context
+		HBITMAP hOldBitmap = (HBITMAP)SelectObject(hMemDC, hBitmap);
+
+		// Draw the bitmap to the destination device context
+		if (_isTrans)
+			TransparentBlt(_hDC, _x, _y, _wPart, _hPart, hMemDC, _xPart, _yPart,
+				_wPart, _hPart, _transColor);
+		else
+			BitBlt(_hDC, _x, _y, _wPart, _hPart, hMemDC, _xPart, _yPart, SRCCOPY);
+
+		// Restore and delete the memory device context
+		SelectObject(hMemDC, hOldBitmap);
+		DeleteDC(hMemDC);
+	}
+}
