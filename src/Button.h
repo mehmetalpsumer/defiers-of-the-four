@@ -21,7 +21,7 @@ const COLORREF	CR_TXTBG = RGB(22, 15, 28);
 const COLORREF	CR_BGHOVER = RGB(255, 255, 255);
 const COLORREF	CR_TXTHOVER = RGB(22, 15, 28);
 const COLORREF  CR_TXTBGHOVER = RGB(255, 255, 255);
-const int		BTN_WIDTH = 200;
+const int		BTN_WIDTH = 250;
 const int		BTN_HEIGHT = 50;
 
 //-----------------------------------------------------------------
@@ -30,7 +30,6 @@ const int		BTN_HEIGHT = 50;
 class Button {
 protected:
 	// Member Variables
-	HDC			hDC;
 	Bitmap*		bgBitmapDefault;
 	Bitmap*		bgBitmapHover;
 	Sprite*		btnSprite;
@@ -48,4 +47,5 @@ public:
 	// Accessor methods
 	void SetHover(bool _h) { hover = _h; };
 	Sprite* GetSprite() { return btnSprite; };
+
 };

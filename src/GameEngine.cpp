@@ -96,6 +96,7 @@ GameEngine::GameEngine(HINSTANCE _hInstance, LPTSTR _windowClass,
 	sleep = TRUE;
 	joystickID = 0;
 	sprites.reserve(50);
+	midiPlayerID = 0;
 }
 
 GameEngine::~GameEngine()
@@ -411,4 +412,57 @@ Sprite* GameEngine::IsPointInSprite(int _x, int _y)
 
 	// The point is not in a sprite
 	return NULL;
+}
+
+void GameEngine::PlayMIDISong(LPTSTR _midiFileName, BOOL bRestart)
+{
+	// See if the MIDI player needs to be opened
+	if (midiPlayerID == 0)
+	{
+		// Open the MIDI player by specifying the device and filename
+		MCI_OPEN_PARMS mciOpenParms;
+		mciOpenParms.lpstrDeviceType = (LPCWSTR) "sequencer";
+		mciOpenParms.lpstrElementName = _midiFileName;
+		if (mciSendCommand(NULL, MCI_OPEN, MCI_OPEN_TYPE | MCI_OPEN_ELEMENT,
+			(DWORD_PTR)&mciOpenParms) == 0)
+			// Get the ID for the MIDI player
+			midiPlayerID = mciOpenParms.wDeviceID;
+		else
+			// There was a problem, so just return
+			return;
+	}
+
+	// Restart the MIDI song, if necessary
+	if (bRestart)
+	{
+		MCI_SEEK_PARMS mciSeekParms;
+		if (mciSendCommand(midiPlayerID, MCI_SEEK, MCI_SEEK_TO_START,
+			(DWORD_PTR)&mciSeekParms) != 0)
+			// There was a problem, so close the MIDI player
+			CloseMIDIPlayer();
+	}
+
+	// Play the MIDI song
+	MCI_PLAY_PARMS mciPlayParms;
+	if (mciSendCommand(midiPlayerID, MCI_PLAY, 0,
+		(DWORD_PTR)&mciPlayParms) != 0)
+		// There was a problem, so close the MIDI player
+		CloseMIDIPlayer();
+}
+
+void GameEngine::PauseMIDISong()
+{
+	// Pause the currently playing song, if possible
+	if (midiPlayerID != 0)
+		mciSendCommand(midiPlayerID, MCI_PAUSE, 0, NULL);
+}
+
+void GameEngine::CloseMIDIPlayer()
+{
+	// Close the MIDI player, if possible
+	if (midiPlayerID != 0)
+	{
+		mciSendCommand(midiPlayerID, MCI_CLOSE, 0, NULL);
+		midiPlayerID = 0;
+	}
 }

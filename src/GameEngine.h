@@ -69,6 +69,7 @@ protected:
 	UINT                joystickID;
 	RECT                joystickTrip;
 	vector<Sprite*>     sprites;
+	UINT                midiPlayerID;
 
 	// Helper Methods
 	BOOL                CheckSpriteCollision(Sprite* _testSprite);
@@ -94,6 +95,9 @@ public:
 	void                UpdateSprites();
 	void                CleanupSprites();
 	Sprite*             IsPointInSprite(int _x, int _y);
+	void                PlayMIDISong(LPTSTR _midiFileName = (LPTSTR) TEXT(""), BOOL _restart = TRUE);
+	void                PauseMIDISong();
+	void                CloseMIDIPlayer();
 
 	// Accessor Methods
 	HINSTANCE GetInstance() { return hInstance; };
