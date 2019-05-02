@@ -466,3 +466,16 @@ void GameEngine::CloseMIDIPlayer()
 		midiPlayerID = 0;
 	}
 }
+
+void GameEngine::PrintText(HDC _hDC, LPCWSTR _text, int _fontSize, RECT _bounds) {
+	HFONT hFont;
+	hFont = CreateFont(_fontSize, 0, 0, 0, 100, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS,
+		CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, VARIABLE_PITCH, TEXT("Courier"));
+	SelectObject(_hDC, hFont);
+	DrawText(_hDC, (LPCWSTR) _text, -1, &_bounds, DT_CENTER | DT_VCENTER);
+	
+	// Restore defaults
+	DeleteObject(hFont);
+	SetTextColor(_hDC, RGB(255, 255, 255));
+	SetBkColor(_hDC, RGB(22, 15, 28));
+}

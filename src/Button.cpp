@@ -54,6 +54,10 @@ void Button::Draw(HDC _hDC) {
 		CLIP_DEFAULT_PRECIS, CLEARTYPE_QUALITY, VARIABLE_PITCH, TEXT("Courier"));
 	SelectObject(_hDC, hFont);
 	DrawText(_hDC, text, -1, &bounds, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+	
+	// Restore defaults
 	DeleteObject(hFont);
+	SetTextColor(_hDC, RGB(255, 255, 255));
+	SetBkColor(_hDC, RGB(22, 15, 28));
 
 }

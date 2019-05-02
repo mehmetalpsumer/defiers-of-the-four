@@ -20,7 +20,7 @@ Sprite::Sprite(Bitmap* _bitmap) {
 	CalcCollisionRect();
 	velocity.x = velocity.y = 0;
 	zOrder = 0;
-	SetRect(&bounds, 0, 0, 640, 480);
+	SetRect(&bounds, 0, 0, 1024, 768);
 	boundsAction = BA_STOP;
 	isHidden = FALSE;
 }

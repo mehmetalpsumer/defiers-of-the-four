@@ -12,6 +12,7 @@ using namespace std;
 #include <windows.h>
 #include <mmsystem.h>
 #include <vector>
+#include <string>
 #include "Sprite.h"
 
 //-----------------------------------------------------------------
@@ -98,6 +99,7 @@ public:
 	void                PlayMIDISong(LPTSTR _midiFileName = (LPTSTR) TEXT(""), BOOL _restart = TRUE);
 	void                PauseMIDISong();
 	void                CloseMIDIPlayer();
+	void				PrintText(HDC _hDC, LPCWSTR _text, int _fontSize, RECT _bounds);
 
 	// Accessor Methods
 	HINSTANCE GetInstance() { return hInstance; };

@@ -1,17 +1,19 @@
 //-----------------------------------------------------------------
-// Character Object
-// C++ Source - Character.cpp
+// Robot Object
+// C++ Source - Robot.cpp
 //-----------------------------------------------------------------
 
 //-----------------------------------------------------------------
 // Include Files
 //-----------------------------------------------------------------
-#include "Character.h"
+#include "Robot.h"
 
 //-----------------------------------------------------------------
-// Character Constructor(s)/Destructor
+// Robot Constructor(s)/Destructor
 //-----------------------------------------------------------------
-Character::Character(std::string _name, std::string _description, Sprite* _sprite, int _healthPoint, int _speed, POINT _mapPosition) {
+Robot::Robot(std::string _name, std::string _description, Sprite* _sprite, int _healthPoint, int _speed, POINT _mapPosition, ControlStatus _controlStatus, int _cooldown1, int _cooldown2, bool _menuHover)
+	:Character(_name, _description, _sprite, _healthPoint, _speed, _mapPosition) 
+{
 	name = _name;
 	description = _description;
 	sprite = _sprite;
@@ -19,13 +21,17 @@ Character::Character(std::string _name, std::string _description, Sprite* _sprit
 	healthPoint = _healthPoint;
 	maxHealthPoint = _healthPoint;
 	mapPosition = _mapPosition;
+	controlStatus = _controlStatus;
+	cooldown1 = _cooldown1;
+	cooldown2 = _cooldown2;
+
 }
 
-Character::~Character()
+Robot::~Robot()
 {
 }
 
 
 //-----------------------------------------------------------------
-// Character General Methods
+// Robot General Methods
 //-----------------------------------------------------------------

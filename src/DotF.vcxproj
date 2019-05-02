@@ -155,7 +155,7 @@
     <ClInclude Include="DotF.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="R_RoboCap.h" />
+    <ClInclude Include="Robot.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
@@ -166,7 +166,7 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="DotF.cpp" />
     <ClCompile Include="GameEngine.cpp" />
-    <ClCompile Include="R_RoboCap.cpp" />
+    <ClCompile Include="Robot.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
