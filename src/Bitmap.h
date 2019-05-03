@@ -26,8 +26,8 @@ class Bitmap
 {
 protected:
 	// Member Variables
-	HBITMAP hBitmap;
-	int     width, height;
+	HBITMAP m_hBitmap;
+	int     m_iWidth, m_iHeight;
 
 	// Helper Methods
 	void Free();
@@ -35,20 +35,17 @@ protected:
 public:
 	// Constructor(s)/Destructor
 	Bitmap();
-	Bitmap(HDC _hDC, LPTSTR _fileName);
-	Bitmap(HDC _hDC, UINT _resID, HINSTANCE _hInstance);
-	Bitmap(HDC _hDC, int _width, int _height, COLORREF _color = RGB(0, 0, 0));
+	Bitmap(HDC hDC, LPTSTR szFileName);
+	Bitmap(HDC hDC, UINT uiResID, HINSTANCE hInstance);
+	Bitmap(HDC hDC, int iWidth, int iHeight, COLORREF crColor = RGB(0, 0, 0));
 	virtual ~Bitmap();
 
 	// General Methods
-	BOOL Create(HDC _hDC, LPTSTR _fileName);
-	BOOL Create(HDC _hDC, UINT _resID, HINSTANCE _hInstance);
-	BOOL Create(HDC _hDC, int _width, int _height, COLORREF _color);
-	void Draw(HDC _hDC, int _x, int _y, BOOL _isTrans = FALSE,
-		COLORREF _transColor = RGB(255, 0, 255));
-	void DrawPart(HDC _hDC, int _x, int _y, int _xPart, int _yPart,
-		int _wPart, int _hPart, BOOL _isTrans = FALSE,
+	BOOL Create(HDC hDC, LPTSTR szFileName);
+	BOOL Create(HDC hDC, UINT uiResID, HINSTANCE hInstance);
+	BOOL Create(HDC hDC, int iWidth, int iHeight, COLORREF crColor);
+	void Draw(HDC hDC, int x, int y, BOOL bTrans = FALSE,
 		COLORREF crTransColor = RGB(255, 0, 255));
-	int  GetWidth() { return width; };
-	int  GetHeight() { return height; };
+	int  GetWidth() { return m_iWidth; };
+	int  GetHeight() { return m_iHeight; };
 };
