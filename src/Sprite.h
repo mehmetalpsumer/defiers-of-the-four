@@ -10,19 +10,29 @@
 //-----------------------------------------------------------------
 #include <windows.h>
 #include "Bitmap.h"
+#ifndef CHARACTER_H
+#define CHARACTER_H
+#endif // !CHARACTER_H
 
 //-----------------------------------------------------------------
 // Custom Data Types
 //-----------------------------------------------------------------
+class Character;
+
 typedef WORD        SPRITEACTION;
-const SPRITEACTION  SA_NONE = 0x0000L,
-SA_KILL = 0x0001L;
+const SPRITEACTION  SA_NONE		 = 0x0000L,
+					SA_KILL		 = 0x0001L,
+					SA_ADDSPRITE = 0x0002L;;
 
 typedef WORD        BOUNDSACTION;
-const BOUNDSACTION  BA_STOP = 0,
-BA_WRAP = 1,
-BA_BOUNCE = 2,
-BA_DIE = 3;
+const BOUNDSACTION  BA_STOP   = 0,
+					BA_WRAP   = 1,
+					BA_BOUNCE = 2,
+					BA_DIE    = 3;
+
+typedef WORD		SPRITETYPE;
+const SPRITETYPE	ST_OTHER = 0,
+					ST_CHARACTER = 1;
 
 //-----------------------------------------------------------------
 // Sprite Class
@@ -40,6 +50,11 @@ protected:
 	RECT          bounds;
 	BOUNDSACTION  boundsAction;
 	BOOL          isHidden;
+	BOOL		  isDying;
+	BOOL		  isOneCycle;
+
+	SPRITETYPE	  spriteType;
+	Character*	  character;
 
 	// Helper Methods
 	void UpdateFrame();
@@ -51,19 +66,22 @@ public:
 	Sprite(Bitmap* _bitmap, RECT& _bounds,
 		BOUNDSACTION _boundsAction = BA_STOP);
 	Sprite(Bitmap* _bitmap, POINT _position, POINT _velocity, int _zOrder,
-		RECT& _bounds, BOUNDSACTION _boundsAction = BA_STOP);
+		RECT& _bounds, BOUNDSACTION _boundsAction = BA_STOP, SPRITETYPE _spriteType = ST_OTHER);
 	virtual ~Sprite();
 
 	// General Methods
 	virtual SPRITEACTION  Update();
+	virtual Sprite*		  AddSprite();
 	void                  Draw(HDC _hDC);
 	BOOL                  IsPointInside(int _x, int _y);
 	BOOL                  TestCollision(Sprite* _testSprite);
+	void				  Kill() { isDying = true; };
 
 	// Accessor Methods
 	Bitmap* GetBitmap() { return bitmap; };
-	void	SetNumFrames(int _numFrames);
-	void	SetFrameDelay(int _frameDelay);
+	void	SetBitmap(Bitmap *_bm) { bitmap = _bm; };
+ 	void	SetNumFrames(int _numFrames, BOOL _isOneCycle = false);
+	void	SetFrameDelay(int _frameDelay) { frameDelay = _frameDelay; };
 	RECT&   GetPosition() { return position; };
 	void    SetPosition(int _x, int _y);
 	void    SetPosition(POINT _position);
@@ -81,6 +99,11 @@ public:
 	void    SetHidden(BOOL _isHidden) { isHidden = _isHidden; };
 	int     GetWidth() { return bitmap->GetWidth(); };
 	int     GetHeight() { return bitmap->GetHeight(); };
+
+	Character*	GetCharacter() { return character; };
+	void		SetCharacter(Character *_character) { character = _character; };
+	SPRITETYPE  GetSpriteType() { return spriteType; };
+	void		SetSpriteType(SPRITETYPE _st) { spriteType = _st; };
 };
 
 //-----------------------------------------------------------------
@@ -93,7 +116,13 @@ inline void Sprite::UpdateFrame() {
 
 		// Increment the frame
 		if (++curFrame >= numFrames) {
-			curFrame = 0;
+			if (isOneCycle) {
+				isDying = true;
+			}
+			else {
+				curFrame = 0;
+			}
+			
 		}
 	}
 }
@@ -126,9 +155,10 @@ inline BOOL Sprite::IsPointInside(int _x, int _y) {
 //-----------------------------------------------------------------
 // Sprite Inline Accessor Methods
 //-----------------------------------------------------------------
-inline void Sprite::SetNumFrames(int _numFrames) {
+inline void Sprite::SetNumFrames(int _numFrames, BOOL _isOneCycle) {
 	// Set the number of frames
 	numFrames = _numFrames;
+	isOneCycle = _isOneCycle;
 
 	// Recalculate the position
 	RECT rect = GetPosition();
