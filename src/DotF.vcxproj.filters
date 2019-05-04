@@ -84,5 +84,31 @@
     <Image Include="DotF.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="resources\menu\bitmap1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Icons\Dotf.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Icons\Dotf_sm.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Menu\menu_title.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Menu\menu_star.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\Bitmaps\sheep.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\Sounds\menu_click.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="Resources\Sounds\menu_click_back.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>

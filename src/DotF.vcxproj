@@ -180,7 +180,17 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="DotF.ico" />
+    <Image Include="Resources\Bitmaps\sheep.bmp" />
+    <Image Include="Resources\Icons\Dotf.ico" />
+    <Image Include="Resources\Icons\Dotf_sm.ico" />
+    <Image Include="resources\menu\bitmap1.bmp" />
+    <Image Include="Resources\Menu\menu_star.bmp" />
+    <Image Include="Resources\Menu\menu_title.bmp" />
     <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resources\Sounds\menu_click.wav" />
+    <Media Include="Resources\Sounds\menu_click_back.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
