@@ -33,7 +33,8 @@ const BOUNDSACTION  BA_STOP   = 0,
 typedef WORD		SPRITETYPE;
 const SPRITETYPE	ST_OTHER = 0,
 					ST_CHARACTER = 1,
-					ST_OBSTACLE = 2;
+					ST_OBSTACLE = 2,
+					ST_ALLY_BULLET = 3;
 
 //-----------------------------------------------------------------
 // Sprite Class

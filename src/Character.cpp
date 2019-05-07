@@ -25,6 +25,8 @@ Character::Character(std::string _name, std::string _description, Sprite* _sprit
 	fireDirection = { fireSpeed, 0 };
 	fireDelay = 7;
 	curFireDelay = 0;
+
+	task = AT_IDLE;
 }
 
 Character::~Character()

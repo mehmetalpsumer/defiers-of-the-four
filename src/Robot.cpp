@@ -40,3 +40,15 @@ Robot::~Robot()
 //-----------------------------------------------------------------
 // Robot General Methods
 //-----------------------------------------------------------------
+void Robot::Update() {
+	if (controlStatus != AI) return;
+
+	switch (task) {
+	case AT_FOLLOW:
+		if (target == NULL || path.empty()) return;
+		Move();
+	case AT_IDLE:
+	default:
+		return;
+	}
+}

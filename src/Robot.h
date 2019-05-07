@@ -42,6 +42,7 @@ public:
 	virtual ~Robot();
 
 	// General Methods
+	void Update();
 
 	// Accessor Methods
 	void SetMenuHover(bool _hover) { menuHover = _hover; };
