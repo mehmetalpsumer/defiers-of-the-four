@@ -23,6 +23,8 @@ Sprite::Sprite(Bitmap* _bitmap) {
 	SetRect(&bounds, 0, 0, 1024, 768);
 	boundsAction = BA_STOP;
 	isHidden = FALSE;
+	isDying = FALSE;
+	isOneCycle = FALSE;
 }
 
 Sprite::Sprite(Bitmap* _bitmap, RECT& _bounds, BOUNDSACTION _boundsAction) {
@@ -42,10 +44,12 @@ Sprite::Sprite(Bitmap* _bitmap, RECT& _bounds, BOUNDSACTION _boundsAction) {
 	CopyRect(&bounds, &_bounds);
 	boundsAction = _boundsAction;
 	isHidden = FALSE;
+	isDying = FALSE;
+	isOneCycle = FALSE;
 }
 
 Sprite::Sprite(Bitmap* _bitmap, POINT _position, POINT _velocity, int _zOrder,
-	RECT& _bounds, BOUNDSACTION _boundsAction) {
+	RECT& _bounds, BOUNDSACTION _boundsAction, SPRITETYPE _spriteType) {
 	// Initialize the member variables
 	bitmap = _bitmap;
 	numFrames = 1;
@@ -55,6 +59,7 @@ Sprite::Sprite(Bitmap* _bitmap, POINT _position, POINT _velocity, int _zOrder,
 	CalcCollisionRect();
 	velocity = _position;
 	zOrder = _zOrder;
+	spriteType = _spriteType;
 	CopyRect(&bounds, &_bounds);
 	boundsAction = _boundsAction;
 	isHidden = FALSE;
@@ -67,6 +72,13 @@ Sprite::~Sprite() {
 // Sprite General Methods
 //-----------------------------------------------------------------
 SPRITEACTION Sprite::Update() {
+	// See if the sprite needs to be killed
+	if (isDying)
+		return SA_KILL;
+
+	// Update the frame
+	UpdateFrame();
+
 	// Update the position
 	POINT ptNewPosition, ptSpriteSize, ptBoundsSize;
 	ptNewPosition.x = position.left + velocity.x;
@@ -151,6 +163,10 @@ SPRITEACTION Sprite::Update() {
 	SetPosition(ptNewPosition);
 
 	return SA_NONE;
+}
+
+Sprite* Sprite::AddSprite(){
+	return NULL;
 }
 
 void Sprite::Draw(HDC _hDC) {

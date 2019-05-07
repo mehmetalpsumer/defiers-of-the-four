@@ -72,9 +72,6 @@ protected:
 	vector<Sprite*>     sprites;
 	UINT                midiPlayerID;
 
-	// Helper Methods
-	BOOL                CheckSpriteCollision(Sprite* _testSprite);
-
 public:
 	// Constructor(s)/Destructor
 	GameEngine(HINSTANCE _hInstance, LPTSTR _windowClass , LPTSTR _title,
@@ -114,4 +111,7 @@ public:
 	void      SetFrameRate(int _frameRate) { frameDelay = 1000 / _frameRate; };
 	BOOL      GetSleep() { return sleep; };
 	void      SetSleep(BOOL _sleep) { sleep = _sleep; };
+	// Helper Methods
+	BOOL	  CheckSpriteCollision(Sprite* _testSprite);
+	BOOL	  CheckMoveCollision(Sprite* _testSprite);
 };
