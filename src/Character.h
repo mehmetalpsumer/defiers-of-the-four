@@ -47,4 +47,5 @@ class Character {
 		int GetHealthPoint() { return healthPoint; };
 		int GetSpeed() { return speed; };
 		POINT GetMapPosition() { return mapPosition; };
+		void SetMapPosition(POINT __mapPosition) { mapPosition = __mapPosition; };
 };
