@@ -108,7 +108,7 @@ void seekTheRobots(Demon* demon, map currentmap) {
 
 	vector<Robot*> robots_in_range; // Demon tipinde olacak
 
-	// Range içindeki düşmanları tespit eder ve bunları ateş edilecek düşman arrayine ekler. 
+	// Range içindeki düşmanları tespit eder ve bunları ateş edilecek düşman arrayine ekler.
 	for (size_t i = 0; i < sizeof(arr_x); i++)
 	{
 		for (size_t j = 0; j < sizeof(arr_y); j++)

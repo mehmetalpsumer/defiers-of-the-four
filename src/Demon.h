@@ -60,7 +60,7 @@ protected:
 
 public:
 	// Constructor(s)/Destructor
-	Demon(std::string _name, std::string _description, Sprite* _sprite, int _healthPoint, int _speed, POINT _mapPosition, 
+	Demon(std::string _name, std::string _description, Sprite* _sprite, int _healthPoint, int _speed, POINT _mapPosition,
 		ControlStatus _controlStatus, Demon _robots_in_range[], int _base_number, DemonBase* base,
 		int _base_number_that_warned_by_the_helpless_demon, bool _menuHover = false);
 	virtual ~Demon();
