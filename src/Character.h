@@ -74,25 +74,25 @@ class Character {
 
 			POINT next = (POINT)path.front();
 			POINT current = { sprite->GetPosition().left, sprite->GetPosition().top };
+			current.x += 16;
+			current.y += 16;
+
 			next.x *= 32;
 			next.y *= 32;
 
-			if (next.x == current.x && next.y == current.y) {
-				path.pop();
-				if (path.empty()) return;
-				next = (POINT)path.front();
-				next.x *= 32;
-				next.y *= 32;
-			}
-
+			next.x += 16;
+			next.y += 16;
 			int dy = next.y - current.y;
 			int dx = next.x - current.x;
 
-			if (abs(dy + dx) <= speed) {
+			wchar_t textBuffer[20] = { 0 };
+			swprintf(textBuffer, 20, L"%d,%d - %d, %d\n", current.x, current.y, next.x, next.y);
+			OutputDebugString(textBuffer);
+
+			if (sqrt(pow(dx, 2) + pow(dy,2)) <= 32) {
 				// Reached to the position, move to there and pop
-				if (dx == 0 && dy == 0) {
-					sprite->SetPosition(next);
-					path.pop();
+				/*if (dx == 0 && dy == 0) {
+					
 				}
 				else if (dy == 0) {
 					current.x = next.x;
@@ -100,16 +100,18 @@ class Character {
 				}
 				else if (dx == 0) {
 					current.y = next.y;
-					sprite->SetPosition(current);
-				}
+					sprite->SetPosition(current);*/
+				sprite->SetPosition(next);
+				path.pop();
+				
 			}
 			else {
 				if (abs(dy) > abs(dx)) {
-					current.y += speed * (dy/abs(dy));
+					current.y += 32 * (dy/abs(dy));
 					sprite->SetPosition(current);
 				}
 				else {
-					current.x += speed * (dx / abs(dx));
+					current.x += 32 * (dx / abs(dx));
 					sprite->SetPosition(current);
 				}
 			}
@@ -123,6 +125,7 @@ class Character {
 		int			GetHealthPoint() { return healthPoint; };
 		int			GetMaxHealthPoint() { return maxHealthPoint; };
 		int			GetSpeed() { return speed; };
+		void		SetSpeed(int _speed) { speed = _speed; };
 		int			GetFireSpeed() { return fireSpeed; };
 		void		SetFireSpeed(int _fs) { fireSpeed = _fs; };
 		POINT		GetFireDirection() { return fireDirection; };
@@ -131,6 +134,7 @@ class Character {
 		void		SetCurFireDelay(int _d) { curFireDelay = _d; };
 		int			GetFireDelay() { return fireDelay; };
 		POINT		GetMapPosition() { return mapPosition; };
+		void		SetMapPosition(POINT _pos) { mapPosition = _pos; };
 
 		AI_TASK GetTask() { return task; };
 		void SetTask(AI_TASK _at) { task = _at; };

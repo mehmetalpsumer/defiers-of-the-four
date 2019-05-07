@@ -99,7 +99,7 @@ public:
 	void    SetBoundsAction(BOUNDSACTION ba) { boundsAction = ba; };
 	BOOL    IsHidden() { return isHidden; };
 	void    SetHidden(BOOL _isHidden) { isHidden = _isHidden; };
-	int     GetWidth() { return bitmap->GetWidth(); };
+	int     GetWidth() { return bitmap->GetWidth() / numFrames; };
 	int     GetHeight() { return bitmap->GetHeight(); };
 
 	Character*	GetCharacter() { return character; };
