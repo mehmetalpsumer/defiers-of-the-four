@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -23,7 +23,7 @@
     <ProjectGuid>{2763B5A9-3D31-49D2-9AE5-61BA4B6A0B2C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>DotF</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -152,6 +152,8 @@
     <ClInclude Include="Bitmap.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="Demon.h" />
+    <ClInclude Include="DemonBase.h" />
     <ClInclude Include="DotF.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="Resource.h" />
@@ -164,6 +166,8 @@
     <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Demon.cpp" />
+    <ClCompile Include="DemonBase.cpp" />
     <ClCompile Include="DotF.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="Robot.cpp" />
