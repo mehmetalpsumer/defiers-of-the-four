@@ -12,7 +12,9 @@ using namespace std;
 #include <windows.h>
 #include <string>
 #include <vector>
+#include "Sprite.h"
 #include "Robot.h"
+
 #ifndef DEMON_H
 #define DEMON_H
 #endif
@@ -22,9 +24,9 @@ class Demon;
 //-----------------------------------------------------------------
 // Custom Data Types
 //-----------------------------------------------------------------
-
+/*
 int x_bound_of_view_field = 6;
-int y_bound_of_view_field = 6;
+int y_bound_of_view_field = 6;*/
 
 //-----------------------------------------------------------------
 // DemonBase Class

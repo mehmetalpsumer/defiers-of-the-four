@@ -12,12 +12,15 @@ using namespace std;
 #include <windows.h>
 #include <string>
 #include <vector>
-#include "Character.h"
+
+#include "Sprite.h"
 #include "Robot.h"
 
 #ifndef DEMONBASE_H
 #define DEMONBASE_H
 #endif
+
+
 
 class DemonBase;
 
@@ -26,8 +29,6 @@ class DemonBase;
 // Custom Data Types
 //-----------------------------------------------------------------
 typedef vector<vector<int>> Map;
-Bitmap* _demonBitmap;
-Sprite* _demon;
 
 
 //-----------------------------------------------------------------
