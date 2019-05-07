@@ -508,5 +508,3 @@ void GameEngine::PrintText(HDC _hDC, LPCWSTR _text, int _fontSize, RECT _bounds)
 	SetTextColor(_hDC, RGB(255, 255, 255));
 	SetBkColor(_hDC, RGB(22, 15, 28));
 }
-
-

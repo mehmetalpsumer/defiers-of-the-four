@@ -8,16 +8,25 @@
 //-----------------------------------------------------------------
 // Include Files
 //-----------------------------------------------------------------
+using namespace std;
 #include <windows.h>
 #include <string>
-#include "DotF.h"
+#include <vector>
+#include "Sprite.h"
+#include "Robot.h"
+
+#ifndef DEMON_H
+#define DEMON_H
+#endif
+
+class Demon;
 
 //-----------------------------------------------------------------
 // Custom Data Types
 //-----------------------------------------------------------------
-
+/*
 int x_bound_of_view_field = 6;
-int y_bound_of_view_field = 6;
+int y_bound_of_view_field = 6;*/
 
 //-----------------------------------------------------------------
 // DemonBase Class
@@ -27,15 +36,13 @@ class DemonBase
 protected:
 
 	// Member Variables
-	Bitmap* _demonBaseBitmap;
-	Sprite* _demonBaseBitmap;
+	Sprite* _demonBaseSprite;
 
 	POINT mapPosition;
 	int base_number;
 	vector<Robot*> currentTargets;
 	vector<Demon*> currentDemons;
 
-	POINT mapPosition;
 
 	// Helper Methods
 	void Free();

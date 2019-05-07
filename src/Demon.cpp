@@ -1,4 +1,4 @@
-ï»¿//-----------------------------------------------------------------
+//-----------------------------------------------------------------
 // Demon Object
 // C++ Source - Demon.cpp
 //-----------------------------------------------------------------
@@ -7,14 +7,14 @@
 // Include Files
 //-----------------------------------------------------------------
 #include "Demon.h"
-
+#include "DemonBase.h"
 
 //-----------------------------------------------------------------
 // Demon Constructor(s)/Destructor
 //-----------------------------------------------------------------
 Demon::Demon(std::string _name, std::string _description, Sprite* _sprite, int _healthPoint, int _speed, POINT _mapPosition,
-	ControlStatus _controlStatus, Demon _demons_in_range[], int _base_number, DemonBase* base, int _warned_by_helpless_base_number, bool _menuHover)
-	:Character(_name, _description, _sprite, _healthPoint, _speed, _mapPosition)
+	Demon _demons_in_range[], int _base_number, DemonBase* base, int _warned_by_helpless_base_number, int _fireSpeed, bool _menuHover)
+	:Character(_name, _description, _sprite, _sprite, _healthPoint, _speed, _mapPosition, _fireSpeed)
 {
 	name = _name;
 	description = _description;
@@ -23,7 +23,6 @@ Demon::Demon(std::string _name, std::string _description, Sprite* _sprite, int _
 	healthPoint = _healthPoint;
 	maxHealthPoint = _healthPoint;
 	mapPosition = _mapPosition;
-	controlStatus = _controlStatus;
 }
 
 Demon::~Demon()
@@ -36,7 +35,7 @@ Demon::~Demon()
 //-----------------------------------------------------------------
 
 
-void Situations(Demon* demon, Robot* robot, map currentmap, vector<DemonBase*> demonBaseArray) {
+void Demon::Situations(Demon* demon, Robot* robot, Map currentmap, vector<DemonBase*> demonBaseArray) {
 
 	seekTheRobots(demon, currentmap);
 
@@ -64,7 +63,8 @@ void Situations(Demon* demon, Robot* robot, map currentmap, vector<DemonBase*> d
 
 				for (size_t i = 0; i < demon_amount_in_the_base / 2; i++)
 				{
-					SendToTheHelplessBase(demon->GetBase()->GetCurrentDemons()[i], the_closest_base); //en yakÄ±n base'e yardÄ±ma gider.
+					// move to closest base
+					//SendToTheHelplessBase(demon->GetBase()->GetCurrentDemons()[i], the_closest_base); //en yakýn base'e yardýma gider.
 				}
 			}
 
@@ -81,7 +81,7 @@ void Situations(Demon* demon, Robot* robot, map currentmap, vector<DemonBase*> d
 
 }
 
-void seekTheRobots(Demon* demon, map currentmap) {
+void Demon::seekTheRobots(Demon* demon, Map currentmap) {
 
 	POINT demonposition;
 	demonposition.x = demon->GetMapPosition().x;
@@ -108,7 +108,7 @@ void seekTheRobots(Demon* demon, map currentmap) {
 
 	vector<Robot*> robots_in_range; // Demon tipinde olacak
 
-	// Range iÃ§indeki dÃ¼ÅŸmanlarÄ± tespit eder ve bunlarÄ± ateÅŸ edilecek dÃ¼ÅŸman arrayine ekler.
+									// Range içindeki düþmanlarý tespit eder ve bunlarý ateþ edilecek düþman arrayine ekler.
 	for (size_t i = 0; i < sizeof(arr_x); i++)
 	{
 		for (size_t j = 0; j < sizeof(arr_y); j++)
@@ -119,7 +119,8 @@ void seekTheRobots(Demon* demon, map currentmap) {
 				{
 					if (currentmap[demonposition.y + arr_y[j]][demonposition.x + arr_x[i]] == 3) // enemy 3
 					{
-						robots_in_range.push_back(GetPlayer(demonposition.y + arr_y[j], demonposition.x + arr_x[i]));
+						// get instance of the robot at position
+						/*robots_in_range.push_back(GetPlayer(demonposition.y + arr_y[j], demonposition.x + arr_x[i]));*/
 						break;
 					}
 
@@ -133,7 +134,7 @@ void seekTheRobots(Demon* demon, map currentmap) {
 	demon->SetCurrentTargets(robots_in_range);
 }
 
-void WarnTheBaseDemons(Demon* demon, map currentmap, DemonBase* base) {
+void Demon::WarnTheBaseDemons(Demon* demon, Map currentmap, DemonBase* base) {
 
 	POINT startingposition;
 	startingposition.x = demon->GetMapPosition().x;
@@ -143,22 +144,22 @@ void WarnTheBaseDemons(Demon* demon, map currentmap, DemonBase* base) {
 	targetposition.x = base->GetMapPosition().x;
 	targetposition.y = base->GetMapPosition().y;
 
-	queue <POINT> finalroute = pathFinding(targetposition, startingposition, currentmap);
+	/*queue <POINT> finalroute = FindPath(startingposition, targetposition, currentmap);*/
 
-	demon->MoveOn(finalroute); //base'e gider.
+	/*demon->MoveOn(finalroute);*/ //base'e gider.
 
 	vector<Demon*> demons_around_the_base = base->GetCurrentDemons();
 
 	for (size_t i = 0; i < demons_around_the_base.size(); i++)
 	{
 		if (demons_around_the_base.size() > 0) {
-			demons_around_the_base[i] -> SetBaseNumberThatWarnedByTheHelplessDemon(base->GetBaseNumber()); // warn the base demons
+			demons_around_the_base[i]->SetBaseNumberThatWarnedByTheHelplessDemon(base->GetBaseNumber()); // warn the base demons
 		}
 		else break;
 	}
 }
 
-void AttackByMaintainingTheDistance(Demon* demon, map currentmap, Robot* robot) {
+void Demon::AttackByMaintainingTheDistance(Demon* demon, Map currentmap, Robot* robot) {
 
 	int distance = EuclideanDistance(demon, robot, NULL);
 
@@ -174,9 +175,9 @@ void AttackByMaintainingTheDistance(Demon* demon, map currentmap, Robot* robot) 
 	Attack(demon, robot);
 }
 
-int EuclideanDistance(Demon* demon, Robot* robot, DemonBase* demonBase) {
+int Demon::EuclideanDistance(Demon* demon, Robot* robot, DemonBase* demonBase) {
 
-	//HER KARAKTERÄ°N UPDATE FONKU Ä°Ã‡Ä°NDE DE Ã‡AÄžRILICAK
+	//HER KARAKTERÝN UPDATE FONKU ÝÇÝNDE DE ÇAÐRILICAK
 	POINT startingposition;
 	startingposition.x = demon->GetMapPosition().x;
 	startingposition.y = demon->GetMapPosition().y;
@@ -200,7 +201,7 @@ int EuclideanDistance(Demon* demon, Robot* robot, DemonBase* demonBase) {
 	return EuclideanDistance;
 }
 
-void Chase(Demon* demon, Robot* robot) {
+void Demon::Chase(Demon* demon, Robot* robot) {
 
 	POINT demonPosition;
 	demonPosition.x = demon->GetMapPosition().x;
@@ -215,7 +216,7 @@ void Chase(Demon* demon, Robot* robot) {
 		if (demonPosition.x > robotPosition.x) {
 
 			POINT changedDemonPosition;
-			changedDemonPosition.x -= 1;
+			changedDemonPosition.x = demon->GetMapPosition().x - 1;
 			changedDemonPosition.y = demon->GetMapPosition().y;
 			demon->SetMapPosition(changedDemonPosition);
 		}
@@ -223,7 +224,7 @@ void Chase(Demon* demon, Robot* robot) {
 		else if (demonPosition.x < robotPosition.x) {
 
 			POINT changedDemonPosition;
-			changedDemonPosition.x += 1;
+			changedDemonPosition.x = demon->GetMapPosition().x + 1;
 			changedDemonPosition.y = demon->GetMapPosition().y;
 			demon->SetMapPosition(changedDemonPosition);
 		}
@@ -236,7 +237,7 @@ void Chase(Demon* demon, Robot* robot) {
 
 			POINT changedDemonPosition;
 			changedDemonPosition.x = demon->GetMapPosition().x;
-			changedDemonPosition.y -= 1;
+			changedDemonPosition.y = demon->GetMapPosition().y - 1;
 			demon->SetMapPosition(changedDemonPosition);
 		}
 
@@ -244,7 +245,7 @@ void Chase(Demon* demon, Robot* robot) {
 
 			POINT changedDemonPosition;
 			changedDemonPosition.x = demon->GetMapPosition().x;
-			changedDemonPosition.y += 1;
+			changedDemonPosition.y = demon->GetMapPosition().y + 1;
 			demon->SetMapPosition(changedDemonPosition);
 		}
 
@@ -252,7 +253,7 @@ void Chase(Demon* demon, Robot* robot) {
 
 }
 
-void Evade(Demon* demon, Robot* robot) {
+void Demon::Evade(Demon* demon, Robot* robot) {
 
 	POINT demonPosition;
 	demonPosition.x = demon->GetMapPosition().x;
@@ -265,7 +266,7 @@ void Evade(Demon* demon, Robot* robot) {
 	if (demonPosition.x > robotPosition.x) {
 
 		POINT changedDemonPosition;
-		changedDemonPosition.x += 1;
+		changedDemonPosition.x = demon->GetMapPosition().x + 1;
 		changedDemonPosition.y = demon->GetMapPosition().y;
 		demon->SetMapPosition(changedDemonPosition);
 	}
@@ -273,7 +274,7 @@ void Evade(Demon* demon, Robot* robot) {
 	else if (demonPosition.x < robotPosition.x) {
 
 		POINT changedDemonPosition;
-		changedDemonPosition.x -= 1;
+		changedDemonPosition.x = demon->GetMapPosition().x - 1;
 		changedDemonPosition.y = demon->GetMapPosition().y;
 		demon->SetMapPosition(changedDemonPosition);
 	}
@@ -282,7 +283,7 @@ void Evade(Demon* demon, Robot* robot) {
 
 		POINT changedDemonPosition;
 		changedDemonPosition.x = demon->GetMapPosition().x;
-		changedDemonPosition.y += 1;
+		changedDemonPosition.y = demon->GetMapPosition().y + 1;
 		demon->SetMapPosition(changedDemonPosition);
 	}
 
@@ -290,7 +291,7 @@ void Evade(Demon* demon, Robot* robot) {
 
 		POINT changedDemonPosition;
 		changedDemonPosition.x = demon->GetMapPosition().x;
-		changedDemonPosition.y -= 1;
+		changedDemonPosition.y = demon->GetMapPosition().y - 1;
 		demon->SetMapPosition(changedDemonPosition);
 	}
 
@@ -298,17 +299,17 @@ void Evade(Demon* demon, Robot* robot) {
 
 }
 
-void Attack(Demon* demon, Robot* robot) {
+void Demon::Attack(Demon* demon, Robot* robot) {
 
 }
 
-Robot* FindTheClosestRobot(Demon* demon, vector<Robot*> robots_around_the_demon) {
+Robot* Demon::FindTheClosestRobot(Demon* demon, vector<Robot*> robots_around_the_demon) {
 
 	vector<int> arr_distance;
 
 	for (size_t i = 0; i < robots_around_the_demon.size(); i++)
 	{
-		int distance = EuclideanDistance(demon, (Robot*) robots_around_the_demon[i], NULL);
+		int distance = EuclideanDistance(demon, (Robot*)robots_around_the_demon[i], NULL);
 		arr_distance.push_back(distance);
 	}
 
@@ -328,16 +329,16 @@ Robot* FindTheClosestRobot(Demon* demon, vector<Robot*> robots_around_the_demon)
 	return robots_around_the_demon[index_of_the_closest_robot];
 }
 
-DemonBase* FindTheClosestBase(Demon* demon, int _pEnemyBase_c, vector<DemonBase*> demonBaseArray) {
+DemonBase* Demon::FindTheClosestBase(Demon* demon, int _pEnemyBase_c, vector<DemonBase*> demonBaseArray) {
 
 	vector<int> arr_distance;
 	vector<DemonBase*> demonBasesAccordingToDistances;
 
 	for (size_t i = 0; i < demonBaseArray.size(); i++)
 	{
-		if (i != demon->GetBaseNumber()) { // kendi base'i dÄ±ÅŸÄ±ndakilere bak.
+		if (i != demon->GetBaseNumber()) { // kendi base'i dýþýndakilere bak.
 
-			int distance = EuclideanDistance(demon, NULL, (DemonBase*) demonBaseArray[i]);
+			int distance = EuclideanDistance(demon, NULL, (DemonBase*)demonBaseArray[i]);
 			arr_distance.push_back(distance);
 		}
 	}
@@ -352,14 +353,14 @@ DemonBase* FindTheClosestBase(Demon* demon, int _pEnemyBase_c, vector<DemonBase*
 			min_distance = arr_distance[i];
 			index_of_the_closest_base = i;
 
-			demonBasesAccordingToDistances.push_back((DemonBase*) demonBaseArray[i]);
+			demonBasesAccordingToDistances.push_back((DemonBase*)demonBaseArray[i]);
 		}
 	}
 
 	return demonBasesAccordingToDistances[index_of_the_closest_base];
 }
 
-void RestrictForTheBaseBoundaries(Demon* demon) {
+void Demon::RestrictForTheBaseBoundaries(Demon* demon) {
 
 	POINT demonPosition;
 	demonPosition.x = demon->GetMapPosition().x;
