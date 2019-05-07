@@ -331,7 +331,6 @@ void GameEngine::DrawSprites(HDC _hDC)
 	// Draw the sprites in the sprite vector
 	vector<Sprite*>::iterator siSprite;
 	for (siSprite = sprites.begin(); siSprite != sprites.end(); siSprite++) {
-		printf("This is to do");
 		(*siSprite)->Draw(_hDC);
 	}
 }
@@ -342,7 +341,7 @@ void GameEngine::UpdateSprites()
 	RECT          rcOldSpritePos;
 	SPRITEACTION  saSpriteAction;
 	vector<Sprite*>::iterator siSprite;
-	for (siSprite = sprites.begin(); siSprite != sprites.end(); siSprite++)
+	for (siSprite = sprites.begin(); siSprite != sprites.end(); /*siSprite++*/)
 	{
 		// Save the old sprite position in case we need to restore it
 		rcOldSpritePos = (*siSprite)->GetPosition();
@@ -350,19 +349,29 @@ void GameEngine::UpdateSprites()
 		// Update the sprite
 		saSpriteAction = (*siSprite)->Update();
 
+		// Handle the SA_ADDSPRITE sprite action
+		if (saSpriteAction & SA_ADDSPRITE)
+			// Allow the sprite to add its sprite
+			AddSprite((*siSprite)->AddSprite());
+
 		// Handle the SA_KILL sprite action
 		if (saSpriteAction & SA_KILL)
 		{
+			// Notify the game that the sprite is dying
+			//SpriteDying(*siSprite);
+
+			// Kill the sprite
 			delete (*siSprite);
-			sprites.erase(siSprite);
-			siSprite--;
+			siSprite = sprites.erase(siSprite);
+			//siSprite--;
 			continue;
 		}
 
 		// See if the sprite collided with any others
 		if (CheckSpriteCollision(*siSprite))
-			// Restore the old sprite position
-			(*siSprite)->SetPosition(rcOldSpritePos);
+			(*siSprite)->SetPosition(rcOldSpritePos);  // Restore the old sprite position
+
+		siSprite++;
 	}
 }
 
@@ -381,6 +390,26 @@ BOOL GameEngine::CheckSpriteCollision(Sprite* _testSprite)
 
 		// Test the collision
 		if (_testSprite->TestCollision(*siSprite))
+			// Collision detected
+			return SpriteCollision((*siSprite), _testSprite);
+	}
+
+	// No collision
+	return FALSE;
+}
+
+BOOL GameEngine::CheckMoveCollision(Sprite* _testSprite)
+{
+	// See if the sprite has collided with any other sprites
+	vector<Sprite*>::iterator siSprite;
+	for (siSprite = sprites.begin(); siSprite != sprites.end(); siSprite++)
+	{
+		// Make sure not to check for collision with itself
+		if (_testSprite == (*siSprite))
+			continue;
+
+		// Test the collision
+		if ((*siSprite)->GetSpriteType() == ST_OBSTACLE && _testSprite->TestCollision(*siSprite))
 			// Collision detected
 			return SpriteCollision((*siSprite), _testSprite);
 	}
