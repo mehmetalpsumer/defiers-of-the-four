@@ -30,6 +30,7 @@ Robot::Robot(std::string _name, std::string _description, Sprite* _sprite, Sprit
 	controlStatus = _controlStatus;
 	cooldown1 = _cooldown1;
 	cooldown2 = _cooldown2;
+	isRobot = true;
 }
 
 Robot::~Robot()

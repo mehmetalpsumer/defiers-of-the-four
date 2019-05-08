@@ -50,8 +50,16 @@ protected:
 public:
 	// Constructor(s)/Destructor
 	Demon(std::string _name, std::string _description, Sprite* _sprite, int _healthPoint, int _speed, POINT _mapPosition, DemonBase* base,
-		 int _fireSpeed, DemonBase* _base_needs_help);
+		 int _fireSpeed);
 	virtual ~Demon();
+
+	// Overload operator
+	bool operator==(const Demon& other) {
+		return sprite->GetPosition().left == other.sprite->GetPosition().left
+			&& sprite->GetPosition().top == other.sprite->GetPosition().top
+			&& sprite->GetPosition().right == other.sprite->GetPosition().right
+			&& sprite->GetPosition().bottom == other.sprite->GetPosition().bottom;
+	}
 
 	// General Methods
 	int				EuclideanDistance(Demon* demon, Robot* robot, DemonBase* demonBase);
