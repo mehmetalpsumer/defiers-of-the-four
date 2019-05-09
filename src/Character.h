@@ -130,6 +130,7 @@ class Character {
 		int			GetCurFireDelay() { return curFireDelay; };
 		void		SetCurFireDelay(int _d) { curFireDelay = _d; };
 		int			GetFireDelay() { return fireDelay; };
+		void		SetFireDelay(int _fd) { fireDelay = _fd; };
 		POINT		GetMapPosition() { return mapPosition; };
 		void		SetMapPosition(POINT _pos) { mapPosition = _pos; };
 		BOOL		IsRobot() { return isRobot; };
