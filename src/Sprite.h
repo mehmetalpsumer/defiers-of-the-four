@@ -34,7 +34,9 @@ typedef WORD		SPRITETYPE;
 const SPRITETYPE	ST_OTHER = 0,
 					ST_CHARACTER = 1,
 					ST_OBSTACLE = 2,
-					ST_ALLY_BULLET = 3;
+					ST_ALLY_BULLET = 3,
+					ST_ENEMY_BULLET = 4,
+					ST_DEMON = 5;
 
 //-----------------------------------------------------------------
 // Sprite Class

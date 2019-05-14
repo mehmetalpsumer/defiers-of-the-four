@@ -10,13 +10,17 @@
 //-----------------------------------------------------------------
 #include <windows.h>
 #include <string>
-#include <queue>
+#include <stack>
+#include <vector>
 #include "Sprite.h"
+
 /*#ifndef SPRITE_H
 #define SPRITE_H
 #endif*/ // !SPRITE_H
 
-using std::queue;
+using std::stack;
+using std::vector;
+typedef vector<vector<int>> Map;
 //class Sprite;
 
 //-----------------------------------------------------------------
@@ -48,17 +52,26 @@ class Character {
 		int			fireDelay;
 		int			curFireDelay;
 
-		queue<POINT> path;
+		stack<POINT> path;
+		POINT nextPoint;
 		Character *target;
 		AI_TASK task;
 		POINT nextPosition;
-
+		bool isRobot;
 
 	public:
 		// Constructor(s)/Destructor
 		Character(std::string _name, std::string _description, Sprite* _sprite, Sprite *_menuSprite, 
 			int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed);
 		virtual ~Character();
+
+		// Overload operator
+		bool operator==(const Character& other) {
+			return sprite->GetPosition().left == other.sprite->GetPosition().left
+				&& sprite->GetPosition().top == other.sprite->GetPosition().top
+				&& sprite->GetPosition().right == other.sprite->GetPosition().right
+				&& sprite->GetPosition().bottom == other.sprite->GetPosition().bottom;
+		}
 
 		// General methods
 		inline void TakeHit(int _damage) { healthPoint -= _damage; };
@@ -72,50 +85,34 @@ class Character {
 		inline void Move() {
 			if (path.empty()) return;
 
-			POINT next = (POINT)path.front();
+			POINT next = (POINT)path.top();			
 			POINT current = { sprite->GetPosition().left, sprite->GetPosition().top };
-			current.x += 16;
-			current.y += 16;
 
-			next.x *= 32;
-			next.y *= 32;
-
-			next.x += 16;
-			next.y += 16;
 			int dy = next.y - current.y;
 			int dx = next.x - current.x;
 
-			wchar_t textBuffer[20] = { 0 };
-			swprintf(textBuffer, 20, L"%d,%d - %d, %d\n", current.x, current.y, next.x, next.y);
-			OutputDebugString(textBuffer);
-
-			if (sqrt(pow(dx, 2) + pow(dy,2)) <= 32) {
-				// Reached to the position, move to there and pop
-				/*if (dx == 0 && dy == 0) {
-					
-				}
-				else if (dy == 0) {
-					current.x = next.x;
-					sprite->SetPosition(current);
-				}
-				else if (dx == 0) {
-					current.y = next.y;
-					sprite->SetPosition(current);*/
+			if (dx == 0 && dy == 0) {
 				sprite->SetPosition(next);
 				path.pop();
-				
+			}
+			else if (dy != 0 && abs(dy) <= speed) {
+				current.y = next.y;
+				sprite->SetPosition(current);
+			} 
+			else if (dx != 0 && abs(dx) <= speed) {
+				current.x = next.x;
+				sprite->SetPosition(current);
+			}
+			else if (abs(dx) > abs(dy)) {
+				current.x += speed * (dx / abs(dx));
+				sprite->SetPosition(current);
 			}
 			else {
-				if (abs(dy) > abs(dx)) {
-					current.y += 32 * (dy/abs(dy));
-					sprite->SetPosition(current);
-				}
-				else {
-					current.x += 32 * (dx / abs(dx));
-					sprite->SetPosition(current);
-				}
+				current.y += speed * (dy / abs(dy));
+				sprite->SetPosition(current);			
 			}
 		};
+		virtual void Update();
 
 		// Accessor methods
 		std::string GetName() { return name; };
@@ -133,15 +130,16 @@ class Character {
 		int			GetCurFireDelay() { return curFireDelay; };
 		void		SetCurFireDelay(int _d) { curFireDelay = _d; };
 		int			GetFireDelay() { return fireDelay; };
+		void		SetFireDelay(int _fd) { fireDelay = _fd; };
 		POINT		GetMapPosition() { return mapPosition; };
 		void		SetMapPosition(POINT _pos) { mapPosition = _pos; };
+		BOOL		IsRobot() { return isRobot; };
 
 		AI_TASK GetTask() { return task; };
 		void SetTask(AI_TASK _at) { task = _at; };
-		queue<POINT> GetPath() { return path; };
-		void SetPath(queue<POINT> _path) { path = _path; };
+		stack<POINT> GetPath() { return path; };
 		Character* GetTarget() { return target; };
 		void SetTarget(Character *_ch) { target = _ch; };
-
+		void SetPath(stack<POINT> _path) { path = _path; };
 		
 };

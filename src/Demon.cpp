@@ -13,7 +13,7 @@
 // Demon Constructor(s)/Destructor
 //-----------------------------------------------------------------
 Demon::Demon(std::string _name, std::string _description, Sprite* _sprite, int _healthPoint, int _speed, POINT _mapPosition,
-	Demon _demons_in_range[], int _base_number, DemonBase* base, int _warned_by_helpless_base_number, int _fireSpeed, bool _menuHover)
+	DemonBase* base, int _fireSpeed)
 	:Character(_name, _description, _sprite, _sprite, _healthPoint, _speed, _mapPosition, _fireSpeed)
 {
 	name = _name;
@@ -23,6 +23,7 @@ Demon::Demon(std::string _name, std::string _description, Sprite* _sprite, int _
 	healthPoint = _healthPoint;
 	maxHealthPoint = _healthPoint;
 	mapPosition = _mapPosition;
+	isRobot = false;
 }
 
 Demon::~Demon()
@@ -33,7 +34,10 @@ Demon::~Demon()
 //-----------------------------------------------------------------
 // Demon General Methods
 //-----------------------------------------------------------------
-
+void Character::Update() {
+	if (path.empty()) return;
+	Move();
+}
 
 void Demon::Situations(Demon* demon, Robot* robot, Map currentmap, vector<DemonBase*> demonBaseArray) {
 
