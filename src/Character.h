@@ -32,7 +32,11 @@ enum AI_TASK {
 	AT_FOLLOW,
 	AT_ATTACK
 };
-
+enum ControlStatus {
+	PLAYER_1,
+	PLAYER_2,
+	AI
+};
 //-----------------------------------------------------------------
 // Character Class
 //-----------------------------------------------------------------
@@ -46,23 +50,22 @@ class Character {
 		int			maxHealthPoint;
 		int			speed;
 		POINT		mapPosition;
-
+		bool		firstCreated = true;
 		POINT		fireDirection;
 		int			fireSpeed;
 		int			fireDelay;
 		int			curFireDelay;
-
+		vector<Character*> currentTargets;
 		stack<POINT> path;
-		POINT nextPoint;
 		Character *target;
 		AI_TASK task;
-		POINT nextPosition;
 		bool isRobot;
+		bool ready;
 
 	public:
 		// Constructor(s)/Destructor
 		Character(std::string _name, std::string _description, Sprite* _sprite, Sprite *_menuSprite, 
-			int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed);
+			int healthPoint, int _speed, POINT _mapPosition, int _fireSpeed);
 		virtual ~Character();
 
 		// Overload operator
@@ -74,6 +77,7 @@ class Character {
 		}
 
 		// General methods
+		inline void ClearPath() { while (!path.empty()) path.pop(); };
 		inline void TakeHit(int _damage) { healthPoint -= _damage; };
 		inline void Heal(int _healAmount) { 
 			healthPoint += _healAmount;
@@ -90,10 +94,11 @@ class Character {
 
 			int dy = next.y - current.y;
 			int dx = next.x - current.x;
-
+			ready = false;
 			if (dx == 0 && dy == 0) {
 				sprite->SetPosition(next);
 				path.pop();
+				ready = true;
 			}
 			else if (dy != 0 && abs(dy) <= speed) {
 				current.y = next.y;
@@ -126,7 +131,14 @@ class Character {
 		int			GetFireSpeed() { return fireSpeed; };
 		void		SetFireSpeed(int _fs) { fireSpeed = _fs; };
 		POINT		GetFireDirection() { return fireDirection; };
-		void		SetFireDirection(POINT _fd) { fireDirection = _fd; };
+		void		SetFireDirection(Character *closestEnemy) {
+						POINT enemypoint;
+						enemypoint.x = closestEnemy->GetMapPosition().x;
+						enemypoint.y = closestEnemy->GetMapPosition().y;
+						fireDirection.x = enemypoint.x-mapPosition.x;
+						fireDirection.y = enemypoint.y-mapPosition.y;		
+		};
+		void		SetFireDirection(POINT pt) { fireDirection = pt; };
 		int			GetCurFireDelay() { return curFireDelay; };
 		void		SetCurFireDelay(int _d) { curFireDelay = _d; };
 		int			GetFireDelay() { return fireDelay; };
@@ -134,12 +146,19 @@ class Character {
 		POINT		GetMapPosition() { return mapPosition; };
 		void		SetMapPosition(POINT _pos) { mapPosition = _pos; };
 		BOOL		IsRobot() { return isRobot; };
+		BOOL		IsReady() { return ready; }
+		void		SetReady(BOOL _ready) { ready = _ready; };
 
-		AI_TASK GetTask() { return task; };
-		void SetTask(AI_TASK _at) { task = _at; };
+		AI_TASK		GetTask() { return task; };
+		void		SetTask(AI_TASK _at) { task = _at; };
 		stack<POINT> GetPath() { return path; };
-		Character* GetTarget() { return target; };
-		void SetTarget(Character *_ch) { target = _ch; };
-		void SetPath(stack<POINT> _path) { path = _path; };
-		
+		Character*	GetTarget() { return target; };
+		void		SetTarget(Character *_ch) { target = _ch; };
+		void		SetPath(stack<POINT> _path) { path = _path; };
+		bool		GetFirstCreated() { return firstCreated; };
+		void		SetFirstCreated(bool _f) { firstCreated = _f; };
+		vector<Character*>	GetCurrentTargets() { return currentTargets; };
+		void			SetCurrentTargets(vector<Character*> _currentTargets) { currentTargets = _currentTargets; };
+		int			getHealPoint() { return healthPoint; };
+
 };

@@ -78,7 +78,7 @@ void Demon::Situations(Demon* demon, Robot* robot, Map currentmap, vector<DemonB
 
 	if (demon_amount_in_the_base >= 2 * robot_amount_in_the_base) { //TASK 4
 
-		Robot* the_closest_robot = FindTheClosestRobot(demon, demon->GetCurrentTargets());
+		Robot* the_closest_robot=NULL;// = FindTheClosestRobot(demon, demon->GetCurrentTargets());
 
 		Attack(demon, the_closest_robot);
 	}
@@ -110,7 +110,7 @@ void Demon::seekTheRobots(Demon* demon, Map currentmap) {
 	}
 
 
-	vector<Robot*> robots_in_range; // Demon tipinde olacak
+	vector<Character*> robots_in_range; // Demon tipinde olacak
 
 									// Range içindeki düþmanlarý tespit eder ve bunlarý ateþ edilecek düþman arrayine ekler.
 	for (size_t i = 0; i < sizeof(arr_x); i++)
@@ -307,7 +307,7 @@ void Demon::Attack(Demon* demon, Robot* robot) {
 
 }
 
-Robot* Demon::FindTheClosestRobot(Demon* demon, vector<Robot*> robots_around_the_demon) {
+/*Robot* Demon::FindTheClosestRobot(Demon* demon, vector<Character*> robots_around_the_demon) {
 
 	vector<int> arr_distance;
 
@@ -331,7 +331,7 @@ Robot* Demon::FindTheClosestRobot(Demon* demon, vector<Robot*> robots_around_the
 	}
 
 	return robots_around_the_demon[index_of_the_closest_robot];
-}
+}*/
 
 DemonBase* Demon::FindTheClosestBase(Demon* demon, int _pEnemyBase_c, vector<DemonBase*> demonBaseArray) {
 

@@ -27,7 +27,7 @@ Character::Character(std::string _name, std::string _description, Sprite* _sprit
 	curFireDelay = 0;
 
 	task = AT_IDLE;
-	nextPoint = { -1, -1 };
+	ready = true;
 }
 
 Character::~Character()

@@ -6,13 +6,13 @@
 //-----------------------------------------------------------------
 // Include Files
 //-----------------------------------------------------------------
-#include "Robot.h"
+#include "WololoRobot.h"
 
 //-----------------------------------------------------------------
 // Robot Constructor(s)/Destructor
 //-----------------------------------------------------------------
-Robot::Robot(std::string _name, std::string _description, Sprite* _sprite, Sprite* _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed, ControlStatus _controlStatus, int _cooldown1, int _cooldown2, bool _menuHover)
-	:Character(_name, _description, _sprite, _menuSprite, _healthPoint, _speed, _mapPosition, _fireSpeed) 
+WololoRobot::WololoRobot(std::string _name, std::string _description, Sprite* _sprite, Sprite* _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed, ControlStatus _controlStatus, int _cooldown1, int _cooldown2, bool _menuHover)
+	:Character(_name, _description, _sprite, _menuSprite, _healthPoint, _speed, _mapPosition, _fireSpeed)
 {
 	name = _name;
 	description = _description;
@@ -31,11 +31,9 @@ Robot::Robot(std::string _name, std::string _description, Sprite* _sprite, Sprit
 	cooldown1 = _cooldown1;
 	cooldown2 = _cooldown2;
 	isRobot = true;
-	superpower1avaliable = true;
-	superpower2avaliable = true;
 }
 
-Robot::~Robot()
+WololoRobot::~WololoRobot()
 {
 }
 
@@ -43,7 +41,7 @@ Robot::~Robot()
 //-----------------------------------------------------------------
 // Robot General Methods
 //-----------------------------------------------------------------
-void Robot::Update() {
+void WololoRobot::Update() {
 	if (controlStatus != AI) return;
 
 	switch (task) {
