@@ -36,5 +36,6 @@ public:
 	virtual ~R_Captain();
 
 	// General Methods
-
+	void UseAbility1();
+	void UseAbility2();
 };

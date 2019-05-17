@@ -55,6 +55,9 @@ public:
 
 	// General Methods
 	void Update();
+	virtual void UseAbility1() {};
+	virtual void UseAbility2() {};
+	
 	void UseSuperPower1(vector<Robot*> robots) { // heal robot that has min heal point
 	/*if (superpower1avaliable)
 	{
@@ -91,4 +94,10 @@ public:
 	ControlStatus GetControlStatus() { return controlStatus; };
 	Ability *GetAbility(int _idx) { return &abilities[_idx]; };
 	RobotType GetRobotType() { return robotType; };
+
+	bool IsAbilityReady(int i) { return abilities[i].ready; };
+	void SetAbilityReady(int i, bool r) { abilities[i].ready = r; };
+	time_t GetAbilityUsedTime(int i) { return abilities[i].usedTime; };
+	int GetAbilityDuration(int i) { return abilities[i].duration; };
+	int GetAbilityCooldown(int i) { return abilities[i].cooldown; };
 };

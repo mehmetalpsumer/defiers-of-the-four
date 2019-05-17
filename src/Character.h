@@ -134,6 +134,7 @@ public:
 	inline void BoostStats(int perc) {
 		stats.armor = baseStats.armor + round((baseStats.armor / 100.0) * perc);
 		stats.maxHealth = baseStats.maxHealth + round((baseStats.maxHealth / 100.0) * perc);
+		stats.speed = 20;
 	}
 	virtual void Update();
 
