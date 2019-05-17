@@ -17,17 +17,19 @@ Character::Character(std::string _name, std::string _description, Sprite* _sprit
 	description = _description;
 	sprite = _sprite;
 	menuSprite = _menuSprite;
-	speed = _speed;
-	healthPoint = _healthPoint;
-	maxHealthPoint = _healthPoint;
 	mapPosition = _mapPosition;
-	fireSpeed = _fireSpeed;
-	fireDirection = { fireSpeed, 0 };
-	fireDelay = 7;
 	curFireDelay = 0;
-
 	task = AT_IDLE;
 	ready = true;
+
+	CharacterStats pStats;
+	pStats.fireDelay = 7;
+	pStats.fireSpeed = _fireSpeed;
+	pStats.health = pStats.maxHealth = _healthPoint;
+	pStats.speed = _speed;
+	pStats.armor = 10;
+	stats = baseStats = pStats;
+	fireDirection = { stats.fireSpeed, 0 };
 }
 
 Character::~Character()

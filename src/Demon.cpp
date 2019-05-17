@@ -19,11 +19,16 @@ Demon::Demon(std::string _name, std::string _description, Sprite* _sprite, int _
 	name = _name;
 	description = _description;
 	sprite = _sprite;
-	speed = _speed;
-	healthPoint = _healthPoint;
-	maxHealthPoint = _healthPoint;
 	mapPosition = _mapPosition;
 	isRobot = false;
+
+	CharacterStats pStats;
+	pStats.fireDelay = 7;
+	pStats.fireSpeed = _fireSpeed;
+	pStats.health = pStats.maxHealth = _healthPoint;
+	pStats.speed = _speed;
+	stats = baseStats = pStats;
+	fireDirection = { stats.fireSpeed, 0 };
 }
 
 Demon::~Demon()

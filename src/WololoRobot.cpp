@@ -18,19 +18,20 @@ WololoRobot::WololoRobot(std::string _name, std::string _description, Sprite* _s
 	description = _description;
 	sprite = _sprite;
 	menuSprite = _menuSprite;
-	speed = _speed;
-	healthPoint = _healthPoint;
-	maxHealthPoint = _healthPoint;
-	mapPosition = _mapPosition;
-	fireSpeed = _fireSpeed;
-	fireDirection = { fireSpeed, 0 };
-	fireDelay = 7;
 	curFireDelay = 0;
 
 	controlStatus = _controlStatus;
 	cooldown1 = _cooldown1;
 	cooldown2 = _cooldown2;
 	isRobot = true;
+
+	CharacterStats pStats;
+	pStats.fireDelay = 7;
+	pStats.fireSpeed = _fireSpeed;
+	pStats.health = pStats.maxHealth = _healthPoint;
+	pStats.speed = _speed;
+	stats = baseStats = pStats;
+	fireDirection = { stats.fireSpeed, 0 };
 }
 
 WololoRobot::~WololoRobot()
@@ -42,7 +43,7 @@ WololoRobot::~WololoRobot()
 // Robot General Methods
 //-----------------------------------------------------------------
 void WololoRobot::Update() {
-	if (controlStatus != AI) return;
+	if (controlStatus != CS_AI) return;
 
 	switch (task) {
 	case AT_FOLLOW:

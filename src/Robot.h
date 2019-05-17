@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------
-// Bitmap Object
+// Robot Object
 // C++ Header - Robot.h
 //-----------------------------------------------------------------
 
@@ -10,18 +10,25 @@
 //-----------------------------------------------------------------
 #include <windows.h>
 #include <string>
-#include "Character.h"
 #include <time.h>
+#include "Character.h"
+
 //-----------------------------------------------------------------
 // Custom Data Types
 //-----------------------------------------------------------------
-/*
-enum ControlStatus {
-	PLAYER_1,
-	PLAYER_2,
-	AI
+enum RobotType {
+	R_CAPTAIN,
+	R_WOLOLO
 };
-*/
+
+struct Ability {
+	std::string name;
+	int cooldown;
+	int duration;
+	bool ready;
+	time_t usedTime;
+};
+typedef struct Ability Ability;
 
 //-----------------------------------------------------------------
 // Robot Class
@@ -32,61 +39,56 @@ protected:
 	
 	// Member Variables
 	ControlStatus controlStatus;
-	int cooldown1, cooldown2;
 	bool menuHover;
-	boolean superpower1avaliable;
-	boolean superpower2avaliable;
-	time_t superpower1usagetime;
-	time_t superpower2usagetime;
+	Ability	abilities[2];
+	RobotType robotType;
+
 	//vector<Demon*> currentTargets;
+
 	// Helper Methods
 	void Free();
 
 public:
 	// Constructor(s)/Destructor
-	Robot(std::string _name, std::string _description, Sprite* _sprite, Sprite* _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed, ControlStatus _controlStatus, int _cooldown1, int _cooldown2, bool _menuHover=false);
+	Robot(std::string _name, std::string _description, Sprite* _sprite, Sprite* _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed, ControlStatus _controlStatus, bool _menuHover=false);
 	virtual ~Robot();
 
 	// General Methods
 	void Update();
+	void UseSuperPower1(vector<Robot*> robots) { // heal robot that has min heal point
+	/*if (superpower1avaliable)
+	{
+
+
+		Robot *minRobot = NULL;
+		int minHealthPoint = 10000;
+		for (auto &Robot : robots) {
+			if (Robot->GetHealth() < minHealthPoint) {
+				minHealthPoint = Robot->GetHealth();
+				minRobot = Robot;
+			}
+		}
+
+		minRobot->Heal(10);
+		superpower1avaliable = false;
+		time(&superpower1usagetime);
+	}*/
+	}
+	void UseSuperPower2(vector<Robot*> robots) { // heal all robots
+		/*if (superpower2avaliable) {
+			for (auto &Robot : robots) {
+				Robot->Heal(10);
+			}
+			superpower2avaliable = false;
+			time(&superpower2usagetime);
+		}*/
+	}
 
 	// Accessor Methods
 	void SetMenuHover(bool _hover) { menuHover = _hover; };
 	bool GetMenuHover() { return menuHover; };
 	void SetControlStatus(ControlStatus _status) { controlStatus = _status; };
 	ControlStatus GetControlStatus() { return controlStatus; };
-	void UseSuperPower1(vector<Robot*> robots) { // heal robot that has min heal point
-		if (superpower1avaliable)
-		{
-
-
-			Robot *minRobot = NULL;
-			int minHealthPoint = 10000;
-			for (auto &Robot : robots) {
-				if (Robot->getHealPoint() < minHealthPoint) {
-					minHealthPoint = Robot->getHealPoint();
-					minRobot = Robot;
-				}
-			}
-
-			minRobot->Heal(10);
-			superpower1avaliable = false;
-			time(&superpower1usagetime);
-		}
-	}
-	void UseSuperPower2(vector<Robot*> robots) { // heal all robots
-		if (superpower2avaliable) {
-			for (auto &Robot : robots) {
-				Robot->Heal(10);
-			}
-			superpower2avaliable = false;
-			time(&superpower2usagetime);
-		}
-	}
-	void SetSuperPower1Availability(bool _i) { superpower1avaliable = _i; };
-	void SetSuperPower2Availability(bool _i) { superpower2avaliable = _i; };
-	bool GetSuperPower1Availability() { return superpower1avaliable; };
-	bool GetSuperPower2Availability() { return superpower2avaliable; };
-	time_t GetSuperPower1UsageTime() { return superpower1usagetime; };
-	time_t GetSuperPower2UsageTime() { return superpower2usagetime; };
+	Ability *GetAbility(int _idx) { return &abilities[_idx]; };
+	RobotType GetRobotType() { return robotType; };
 };
