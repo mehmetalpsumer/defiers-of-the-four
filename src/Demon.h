@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------
-// Bitmap Object
+// Demon Object
 // C++ Header - Demon.h
 //-----------------------------------------------------------------
 
@@ -20,10 +20,7 @@ using namespace std;
 #define DEMONBASE_H
 #endif
 
-
-
-class DemonBase;
-
+class DemonBase; // reference
 
 //-----------------------------------------------------------------
 // Custom Data Types
@@ -37,20 +34,16 @@ typedef vector<vector<int>> Map;
 class Demon :public Character
 {
 protected:
-
 	// Member Variables
 	int base_number;
 	int base_number_that_warned_by_the_helpless_demon;
 	//vector<Robot*> currentTargets;
 	DemonBase* base;
 
-	// Helper Methods
-	void Free();
-
 public:
 	// Constructor(s)/Destructor
-	Demon(std::string _name, std::string _description, Sprite* _sprite, int _healthPoint, int _speed, POINT _mapPosition, DemonBase* base,
-		 int _fireSpeed);
+	Demon(string _name, string _description, Sprite* _sprite, int _healthPoint, int _speed, POINT _mapPosition, DemonBase* base,
+		int _fireSpeed);
 	virtual ~Demon();
 
 	// Overload operator

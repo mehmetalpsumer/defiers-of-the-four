@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------
-// R_Captain Object
+// Robot Captain Object
 // C++ Source - R_Captain.cpp
 //-----------------------------------------------------------------
 
@@ -12,7 +12,7 @@
 // R_Captain Constructor(s)/Destructor
 //-----------------------------------------------------------------
 
-R_Captain::R_Captain(std::string _name, std::string _description, Sprite * _sprite, Sprite * _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed)
+R_Captain::R_Captain(string _name, string _description, Sprite * _sprite, Sprite * _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed)
 	:Robot(_name, _description, _sprite, _menuSprite, _healthPoint, _speed, _mapPosition, _fireSpeed, CS_AI, false)
 {
 	name = { "Captain" };
@@ -48,7 +48,7 @@ R_Captain::~R_Captain()
 
 
 //-----------------------------------------------------------------
-// Character General Methods
+// R_Captain General Methods
 //-----------------------------------------------------------------
 void R_Captain::UseAbility1() {
 	// passive
@@ -67,6 +67,8 @@ void R_Captain::UseAbility2() {
 void R_Captain::Unbreakable(bool active) {
 	if (active) {
 		stats.armor = 1000;
+		time_t now;
+		AddStatusMessage("*unbreakable*", time(&now) + 5);
 	}
 	else {
 		stats.armor = baseStats.armor;

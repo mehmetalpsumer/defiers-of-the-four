@@ -12,7 +12,7 @@
 //-----------------------------------------------------------------
 // Demon Constructor(s)/Destructor
 //-----------------------------------------------------------------
-Demon::Demon(std::string _name, std::string _description, Sprite* _sprite, int _healthPoint, int _speed, POINT _mapPosition,
+Demon::Demon(string _name, string _description, Sprite* _sprite, int _healthPoint, int _speed, POINT _mapPosition,
 	DemonBase* base, int _fireSpeed)
 	:Character(_name, _description, _sprite, _sprite, _healthPoint, _speed, _mapPosition, _fireSpeed)
 {
@@ -27,6 +27,7 @@ Demon::Demon(std::string _name, std::string _description, Sprite* _sprite, int _
 	pStats.fireSpeed = _fireSpeed;
 	pStats.health = pStats.maxHealth = _healthPoint;
 	pStats.speed = _speed;
+	pStats.armor = 0;
 	stats = baseStats = pStats;
 	fireDirection = { stats.fireSpeed, 0 };
 }
@@ -83,7 +84,7 @@ void Demon::Situations(Demon* demon, Robot* robot, Map currentmap, vector<DemonB
 
 	if (demon_amount_in_the_base >= 2 * robot_amount_in_the_base) { //TASK 4
 
-		Robot* the_closest_robot=NULL;// = FindTheClosestRobot(demon, demon->GetCurrentTargets());
+		Robot* the_closest_robot = NULL;// = FindTheClosestRobot(demon, demon->GetCurrentTargets());
 
 		Attack(demon, the_closest_robot);
 	}

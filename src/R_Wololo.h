@@ -14,25 +14,14 @@
 #include "Robot.h"
 
 //-----------------------------------------------------------------
-// Custom Data Types
-//-----------------------------------------------------------------
-
-//-----------------------------------------------------------------
 // R_Wololo Class
 //-----------------------------------------------------------------
-class R_Wololo :public Robot
+class R_Wololo:public Robot
 {
 protected:
-
-	// Member Variables
-
-
-	// Helper Methods
-	void Free();
-
 public:
 	// Constructor(s)/Destructor
-	R_Wololo(std::string _name, std::string _description, Sprite * _sprite, Sprite * _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed);
+	R_Wololo(string _name, string _description, Sprite * _sprite, Sprite * _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed);
 	virtual ~R_Wololo();
 
 	// General Methods

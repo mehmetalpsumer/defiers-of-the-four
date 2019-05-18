@@ -11,8 +11,7 @@
 //-----------------------------------------------------------------
 // R_Wololo Constructor(s)/Destructor
 //-----------------------------------------------------------------
-
-R_Wololo::R_Wololo(std::string _name, std::string _description, Sprite * _sprite, Sprite * _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed)
+R_Wololo::R_Wololo(string _name, string _description, Sprite * _sprite, Sprite * _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed)
 	:Robot(_name, _description, _sprite, _menuSprite, _healthPoint, _speed, _mapPosition, _fireSpeed, CS_AI, false)
 {
 	name = { "Wololo" };
