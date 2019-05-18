@@ -60,6 +60,9 @@
     <ClInclude Include="R_Wololo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="R_Constrobot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -99,6 +102,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="R_Wololo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="R_Constrobot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

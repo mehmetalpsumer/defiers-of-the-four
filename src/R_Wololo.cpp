@@ -15,7 +15,7 @@ R_Wololo::R_Wololo(string _name, string _description, Sprite * _sprite, Sprite *
 	:Robot(_name, _description, _sprite, _menuSprite, _healthPoint, _speed, _mapPosition, _fireSpeed, CS_AI, false)
 {
 	name = { "Wololo" };
-	description = { "Leads the robots to battle by boosting their stats.\nAbility 1: Passive. Boosts armor and max health of the allies by 20%." };
+	description = { "Heal other robots" };
 	robotType = R_WOLOLO;
 
 	// Set up first ability
