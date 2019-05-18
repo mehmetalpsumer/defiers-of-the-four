@@ -48,7 +48,10 @@ void Character::Heal(int _healAmount) {
 		stats.health = stats.maxHealth;
 	}
 	time_t now;
-	if (absHeal > 0) AddStatusMessage({ "+" + to_string(absHeal) }, time(&now) + 2, RGB(15, 200, 15));
+	if (absHeal > 0) {
+		AddStatusMessage({ "+" + to_string(absHeal) }, time(&now) + 2, RGB(15, 200, 15));
+		PlaySound((LPCWSTR)IDW_HEAL, hInstance, SND_ASYNC | SND_RESOURCE);
+	}
 }
 
 void Character::TakeHit(int _damage) { 

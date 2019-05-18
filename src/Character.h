@@ -14,12 +14,15 @@
 #include <vector>
 #include <algorithm>
 #include <time.h>
+#include "Resource.h"
 #include "Sprite.h"
 
 using std::stack;
 using std::vector;
 using std::string;
 using std::to_string;
+
+extern HINSTANCE hInstance;
 
 //-----------------------------------------------------------------
 // Custom types

@@ -34,8 +34,8 @@ R_Captain::R_Captain(string _name, string _description, Sprite * _sprite, Sprite
 
 	// Ability 2
 	// Active. Boost self stats for a duration.
-	abilities[1].cooldown = 15;
-	abilities[1].duration = 5;
+	abilities[1].cooldown = 20;
+	abilities[1].duration = 8;
 	abilities[1].name = { "Unbreakable" };
 	abilities[1].ready = true;
 	abilities[1].active = false;
@@ -66,6 +66,7 @@ void R_Captain::UseAbility2() {
 
 void R_Captain::Unbreakable(bool active) {
 	if (active) {
+		PlaySound((LPCWSTR)IDW_CAPTAIN_2, hInstance, SND_ASYNC | SND_RESOURCE);
 		stats.armor = 1000;
 		time_t now;
 		AddStatusMessage("*unbreakable*", time(&now) + 5);
