@@ -127,14 +127,14 @@ public:
 		}
 	};
 	inline void ResetStatsToDefault() {
-		int health = stats.health;
-		stats = baseStats;
-		baseStats.health = health;
+		CharacterStats temp = baseStats;
+		temp.health = stats.health;
+		stats = temp;
 	}
 	inline void BoostStats(int perc) {
 		stats.armor = baseStats.armor + round((baseStats.armor / 100.0) * perc);
 		stats.maxHealth = baseStats.maxHealth + round((baseStats.maxHealth / 100.0) * perc);
-		stats.speed = 20;
+		stats.speed = baseStats.speed + round((baseStats.speed / 100.0) * perc);
 	}
 	virtual void Update();
 

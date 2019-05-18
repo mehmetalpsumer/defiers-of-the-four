@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------
-// Bitmap Object
-// C++ Header - R_RoboCap.h
+// R_Wololo Object
+// C++ Header - R_Wololo.h
 //-----------------------------------------------------------------
 
 #pragma once
@@ -9,37 +9,33 @@
 // Include Files
 //-----------------------------------------------------------------
 #include <windows.h>
-#include "Character.h"
+#include <string>
+#include <time.h>
+#include "Robot.h"
 
 //-----------------------------------------------------------------
 // Custom Data Types
 //-----------------------------------------------------------------
-enum allyStatus {
-	Alive,
-	Wounded,
-	Dead
-};
 
 //-----------------------------------------------------------------
-// R_RoboCap Class
+// R_Wololo Class
 //-----------------------------------------------------------------
-class R_RoboCap:public Character
+class R_Wololo :public Robot
 {
 protected:
+
 	// Member Variables
-	char *name;
-	allyStatus status;
-	int *cooldowns;
+
 
 	// Helper Methods
 	void Free();
 
 public:
 	// Constructor(s)/Destructor
-	R_RoboCap(Sprite* _sprite, POINT _position, POINT _velocity, int _healthPoint, int _speed, char _name[20], int _cooldowns[2]);
-	virtual ~R_RoboCap();
+	R_Wololo(std::string _name, std::string _description, Sprite * _sprite, Sprite * _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed);
+	virtual ~R_Wololo();
 
 	// General Methods
-	// Accessor Methods
-
+	void UseAbility1();
+	void UseAbility2(vector<Robot*> robots);
 };

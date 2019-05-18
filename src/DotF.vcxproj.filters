@@ -51,13 +51,13 @@
     <ClInclude Include="DemonBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WololoRobot.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WallSprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="R_Captain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="R_Wololo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -92,13 +92,13 @@
     <ClCompile Include="DemonBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WololoRobot.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="WallSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="R_Captain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="R_Wololo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

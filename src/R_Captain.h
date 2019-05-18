@@ -38,4 +38,5 @@ public:
 	// General Methods
 	void UseAbility1();
 	void UseAbility2();
+	void Unbreakable(bool active);
 };

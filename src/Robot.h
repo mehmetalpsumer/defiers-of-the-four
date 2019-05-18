@@ -23,9 +23,10 @@ enum RobotType {
 
 struct Ability {
 	std::string name;
-	int cooldown;
-	int duration;
-	bool ready;
+	int cooldown; // seconds to charge
+	int duration; // second active status will take
+	bool active; // currently active
+	bool ready; // ready to use
 	time_t usedTime;
 };
 typedef struct Ability Ability;
@@ -57,6 +58,7 @@ public:
 	void Update();
 	virtual void UseAbility1() {};
 	virtual void UseAbility2() {};
+	virtual void UseAbility2(vector<Robot*> _robots) {};
 	
 	void UseSuperPower1(vector<Robot*> robots) { // heal robot that has min heal point
 	/*if (superpower1avaliable)
@@ -100,4 +102,6 @@ public:
 	time_t GetAbilityUsedTime(int i) { return abilities[i].usedTime; };
 	int GetAbilityDuration(int i) { return abilities[i].duration; };
 	int GetAbilityCooldown(int i) { return abilities[i].cooldown; };
+	bool IsAbilityActive(int i) { return abilities[i].active; };
+	void SetAbilityActive(int i, bool a) { abilities[i].active = a; };
 };

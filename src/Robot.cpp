@@ -16,6 +16,8 @@ Robot::Robot(std::string _name, std::string _description, Sprite* _sprite, Sprit
 {
 	controlStatus = _controlStatus;
 	isRobot = true;
+	robotType = R_WOLOLO;
+	stats.armor = 0;
 }
 
 Robot::~Robot()
