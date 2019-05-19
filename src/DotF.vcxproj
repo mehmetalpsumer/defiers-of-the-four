@@ -154,6 +154,7 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="Demon.h" />
     <ClInclude Include="DemonBase.h" />
+    <ClInclude Include="DemonBoss1.h" />
     <ClInclude Include="DotF.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="Resource.h" />
@@ -172,6 +173,7 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Demon.cpp" />
     <ClCompile Include="DemonBase.cpp" />
+    <ClCompile Include="DemonBoss1.cpp" />
     <ClCompile Include="DotF.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="Robot.cpp" />

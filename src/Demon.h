@@ -27,6 +27,11 @@ class DemonBase; // reference
 //-----------------------------------------------------------------
 typedef vector<vector<int>> Map;
 
+enum DemonType {
+	D_DEMON,
+	D_BOSS1
+};
+
 
 //-----------------------------------------------------------------
 // Demon Class
@@ -35,6 +40,7 @@ class Demon :public Character
 {
 protected:
 	// Member Variables
+	DemonType demonType;
 	int base_number;
 	int base_number_that_warned_by_the_helpless_demon;
 	//vector<Robot*> currentTargets;
@@ -76,5 +82,6 @@ public:
 	void			SetCurrentTargets(vector<Robot*> _currentTargets) { currentTargets = _currentTargets; };*/
 	DemonBase*		GetBase() { return base; };
 	void			SetBase(DemonBase* _base) { base = _base; };
+	DemonType		GetDemonType() { return demonType; };
 
 };

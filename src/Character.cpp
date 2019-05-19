@@ -18,7 +18,7 @@ Character::Character(string _name, string _description, Sprite* _sprite, Sprite*
 	sprite = _sprite;
 	menuSprite = _menuSprite;
 	mapPosition = _mapPosition;
-	curFireDelay = 0;
+	curFireDelay = 7;
 	task = AT_IDLE;
 	ready = true;
 
