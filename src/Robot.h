@@ -18,7 +18,8 @@
 //-----------------------------------------------------------------
 enum RobotType {
 	R_CAPTAIN,
-	R_WOLOLO
+	R_WOLOLO,
+	R_CONSTROBOT
 };
 
 struct Ability {
