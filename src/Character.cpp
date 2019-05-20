@@ -139,3 +139,8 @@ void Character::UpdateStatusMessages() {
 		}
 	}
 }
+
+void Character::Invisible() {
+	stats.armor = 999;
+	stats.speed = 15;
+}

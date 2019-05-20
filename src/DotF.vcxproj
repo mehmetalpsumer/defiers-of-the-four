@@ -157,10 +157,12 @@
     <ClInclude Include="DemonBoss1.h" />
     <ClInclude Include="DotF.h" />
     <ClInclude Include="GameEngine.h" />
+    <ClInclude Include="Portal.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Robot.h" />
     <ClInclude Include="R_Captain.h" />
     <ClInclude Include="R_Constrobot.h" />
+    <ClInclude Include="R_Pulsar2280.h" />
     <ClInclude Include="R_Wololo.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="stdafx.h" />
@@ -176,9 +178,11 @@
     <ClCompile Include="DemonBoss1.cpp" />
     <ClCompile Include="DotF.cpp" />
     <ClCompile Include="GameEngine.cpp" />
+    <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Robot.cpp" />
     <ClCompile Include="R_Captain.cpp" />
     <ClCompile Include="R_Constrobot.cpp" />
+    <ClCompile Include="R_Pulsar2280.cpp" />
     <ClCompile Include="R_Wololo.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="stdafx.cpp">

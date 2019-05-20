@@ -19,7 +19,8 @@
 enum RobotType {
 	R_CAPTAIN,
 	R_WOLOLO,
-	R_CONSTROBOT
+	R_CONSTROBOT,
+	R_PULSAR2280
 };
 
 struct Ability {
@@ -45,6 +46,8 @@ protected:
 	RobotType robotType;
 
 public:
+	bool pulsarUlti;
+
 	// Constructor(s)/Destructor
 	Robot(string _name, string _description, Sprite* _sprite, Sprite* _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed, ControlStatus _controlStatus, bool _menuHover = false);
 	virtual ~Robot();
@@ -52,7 +55,7 @@ public:
 	// Virtual
 	virtual void UseAbility1() {};
 	virtual void UseAbility2() {};
-	virtual void UseAbility2(vector<Robot*> _robots) {};
+	virtual void UseAbility2(vector<Robot*> _robots) {}; // different parameter for R_Wololo
 
 	// General Methods
 	void Update();

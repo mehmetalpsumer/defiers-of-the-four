@@ -114,6 +114,7 @@ public:
 	void BoostStats(int perc);
 	void AddStatusMessage(string _msg, time_t _end, COLORREF _color = NULL);
 	void UpdateStatusMessages();
+	void Invisible();
 
 
 	// Accessor methods
