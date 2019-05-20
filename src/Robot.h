@@ -11,11 +11,29 @@
 #include <windows.h>
 #include <string>
 #include <time.h>
+
 #include "Character.h"
+
+extern Bitmap* animationBitmaps[20];
 
 //-----------------------------------------------------------------
 // Custom Data Types
 //-----------------------------------------------------------------
+enum AnimationState {
+	IDLE_LEFT,
+	IDLE_RIGHT,
+	IDLE_UP,
+	IDLE_DOWN,
+	MOVE_LEFT,
+	MOVE_RIGHT,
+	MOVE_UP,
+	MOVE_DOWN,
+	FIRE_LEFT,
+	FIRE_RIGHT,
+	FIRE_UP,
+	FIRE_DOWN
+};
+
 enum RobotType {
 	R_CAPTAIN,
 	R_WOLOLO,
