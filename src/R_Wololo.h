@@ -22,7 +22,7 @@ class R_Wololo:public Robot
 protected:
 public:
 	// Constructor(s)/Destructor
-	R_Wololo(string _name, string _description, Sprite * _sprite, Sprite * _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed);
+	R_Wololo(Sprite * _sprite, Sprite * _menuSprite,POINT _mapPosition);
 	virtual ~R_Wololo();
 
 	// General Methods

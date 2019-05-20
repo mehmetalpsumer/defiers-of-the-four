@@ -35,6 +35,7 @@ struct CharacterStats {
 	int maxHealth;
 	int speed;
 	int armor;
+	int damage;
 };
 typedef struct CharacterStats CharacterStats;
 
@@ -88,8 +89,7 @@ protected:
 
 public:
 	// Constructor(s)/Destructor
-	Character(string _name, string _description, Sprite* _sprite, Sprite *_menuSprite,
-		int healthPoint, int _speed, POINT _mapPosition, int _fireSpeed);
+	Character(Sprite* _sprite, Sprite *_menuSprite, POINT _mapPosition);
 	virtual ~Character();
 
 	// Overload operator
@@ -169,4 +169,5 @@ public:
 		if (statusMessages.empty()) return NULL;
 		else return statusMessages[0].color;
 	};
+	int GetDamage() { return stats.damage; };
 };

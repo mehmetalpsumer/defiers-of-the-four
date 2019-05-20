@@ -67,7 +67,7 @@ public:
 	bool pulsarUlti;
 
 	// Constructor(s)/Destructor
-	Robot(string _name, string _description, Sprite* _sprite, Sprite* _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed, ControlStatus _controlStatus, bool _menuHover = false);
+	Robot(Sprite* _sprite, Sprite* _menuSprite, POINT _mapPosition);
 	virtual ~Robot();
 
 	// Virtual

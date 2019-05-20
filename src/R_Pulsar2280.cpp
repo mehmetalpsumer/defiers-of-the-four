@@ -12,8 +12,8 @@
 // R_Pulsar2280 Constructor(s)/Destructor
 //-----------------------------------------------------------------
 
-R_Pulsar2280::R_Pulsar2280(string _name, string _description, Sprite * _sprite, Sprite * _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed)
-	:Robot(_name, _description, _sprite, _menuSprite, _healthPoint, _speed, _mapPosition, _fireSpeed, CS_AI, false)
+R_Pulsar2280::R_Pulsar2280(Sprite * _sprite, Sprite * _menuSprite, POINT _mapPosition)
+	:Robot(_sprite, _menuSprite, _mapPosition)
 {
 	name = { "Pulsar 2280" };
 	description = { "Creating portal and becoming invisible" };
@@ -41,6 +41,16 @@ R_Pulsar2280::R_Pulsar2280(string _name, string _description, Sprite * _sprite, 
 	abilities[1].active = false;
 	abilities[1].usedTime = now;
 	baseStats = stats;
+
+	// Stats
+	CharacterStats pStats;
+	pStats.fireDelay = 7;
+	pStats.fireSpeed = 10;
+	pStats.health = pStats.maxHealth = 100;
+	pStats.speed = 7;
+	pStats.armor = 10;
+	pStats.damage = 15;
+	stats = baseStats = pStats;
 }
 
 R_Pulsar2280::~R_Pulsar2280()

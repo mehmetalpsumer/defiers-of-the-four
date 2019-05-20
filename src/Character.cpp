@@ -11,10 +11,9 @@
 //-----------------------------------------------------------------
 // Character Constructor(s)/Destructor
 //-----------------------------------------------------------------
-Character::Character(string _name, string _description, Sprite* _sprite, Sprite* _menuSprite, 
-	int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed) {
-	name = _name;
-	description = _description;
+Character::Character(Sprite* _sprite, Sprite* _menuSprite, POINT _mapPosition) {
+	name = "Character";
+	description = "Character Description";
 	sprite = _sprite;
 	menuSprite = _menuSprite;
 	mapPosition = _mapPosition;
@@ -24,10 +23,11 @@ Character::Character(string _name, string _description, Sprite* _sprite, Sprite*
 
 	CharacterStats pStats;
 	pStats.fireDelay = 7;
-	pStats.fireSpeed = _fireSpeed;
-	pStats.health = pStats.maxHealth = _healthPoint;
-	pStats.speed = _speed;
+	pStats.fireSpeed = 7;
+	pStats.health = pStats.maxHealth = 100;
+	pStats.speed = 7;
 	pStats.armor = 10;
+	pStats.damage = 20;
 	stats = baseStats = pStats;
 	fireDirection = { stats.fireSpeed, 0 };
 }

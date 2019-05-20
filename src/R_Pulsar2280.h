@@ -21,7 +21,7 @@ class R_Pulsar2280 :public Robot
 protected:
 public:
 	// Constructor(s)/Destructor
-	R_Pulsar2280(string _name, string _description, Sprite * _sprite, Sprite * _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed);
+	R_Pulsar2280(Sprite * _sprite, Sprite * _menuSprite, POINT _mapPosition);
 	virtual ~R_Pulsar2280();
 	// General Methods
 	void UseAbility1();

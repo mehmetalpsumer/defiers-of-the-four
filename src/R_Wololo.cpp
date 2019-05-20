@@ -11,8 +11,7 @@
 //-----------------------------------------------------------------
 // R_Wololo Constructor(s)/Destructor
 //-----------------------------------------------------------------
-R_Wololo::R_Wololo(string _name, string _description, Sprite * _sprite, Sprite * _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed)
-	:Robot(_name, _description, _sprite, _menuSprite, _healthPoint, _speed, _mapPosition, _fireSpeed, CS_AI, false)
+R_Wololo::R_Wololo(Sprite * _sprite, Sprite * _menuSprite, POINT _mapPosition):Robot(_sprite, _menuSprite, _mapPosition)
 {
 	name = { "Wololo" };
 	description = { "Heal other robots." };
@@ -39,6 +38,16 @@ R_Wololo::R_Wololo(string _name, string _description, Sprite * _sprite, Sprite *
 	abilities[1].ready = true;
 	abilities[1].active = false;
 	abilities[1].usedTime = now;
+
+	// Stats
+	CharacterStats pStats;
+	pStats.fireDelay = 7;
+	pStats.fireSpeed = 7;
+	pStats.health = pStats.maxHealth = 100;
+	pStats.speed = 7;
+	pStats.armor = 10;
+	pStats.damage = 15;
+	stats = baseStats = pStats;
 }
 
 R_Wololo::~R_Wololo()

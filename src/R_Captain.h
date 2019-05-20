@@ -21,7 +21,7 @@ class R_Captain:public Robot
 protected:
 public:
 	// Constructor(s)/Destructor
-	R_Captain(string _name, string _description, Sprite * _sprite, Sprite * _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed);
+	R_Captain(Sprite * _sprite, Sprite * _menuSprite, POINT _mapPosition);
 	virtual ~R_Captain();
 
 	// General Methods

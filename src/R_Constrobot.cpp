@@ -12,8 +12,7 @@
 // R_Constrobot Constructor(s)/Destructor
 //-----------------------------------------------------------------
 
-R_Constrobot::R_Constrobot(string _name, string _description, Sprite * _sprite, Sprite * _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed)
-	:Robot(_name, _description, _sprite, _menuSprite, _healthPoint, _speed, _mapPosition, _fireSpeed, CS_AI, false)
+R_Constrobot::R_Constrobot(Sprite * _sprite, Sprite * _menuSprite, POINT _mapPosition):Robot(_sprite, _menuSprite, _mapPosition)
 {
 	name = { "Constrobot" };
 	description = { "Builds a wall or demolish a wall at a stroke" };
@@ -40,6 +39,16 @@ R_Constrobot::R_Constrobot(string _name, string _description, Sprite * _sprite, 
 	abilities[1].ready = true;
 	abilities[1].active = false;
 	abilities[1].usedTime = now;
+
+	// Stats
+	CharacterStats pStats;
+	pStats.fireDelay = 7;
+	pStats.fireSpeed = 7;
+	pStats.health = pStats.maxHealth = 100;
+	pStats.speed = 7;
+	pStats.armor = 10;
+	pStats.damage = 20;
+	stats = baseStats = pStats;
 }
 
 R_Constrobot::~R_Constrobot()

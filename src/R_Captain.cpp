@@ -12,8 +12,7 @@
 // R_Captain Constructor(s)/Destructor
 //-----------------------------------------------------------------
 
-R_Captain::R_Captain(string _name, string _description, Sprite * _sprite, Sprite * _menuSprite, int _healthPoint, int _speed, POINT _mapPosition, int _fireSpeed)
-	:Robot(_name, _description, _sprite, _menuSprite, _healthPoint, _speed, _mapPosition, _fireSpeed, CS_AI, false)
+R_Captain::R_Captain(Sprite * _sprite, Sprite * _menuSprite,POINT _mapPosition):Robot(_sprite, _menuSprite, _mapPosition)
 {
 	name = { "Captain" };
 	description = { "Leads the robots to battle by boosting their stats.\nAbility 1: Passive. Boosts armor and max health of the allies by 20%."};
@@ -40,6 +39,16 @@ R_Captain::R_Captain(string _name, string _description, Sprite * _sprite, Sprite
 	abilities[1].ready = true;
 	abilities[1].active = false;
 	abilities[1].usedTime = now;
+
+	// Stats
+	CharacterStats pStats;
+	pStats.fireDelay = 7;
+	pStats.fireSpeed = 7;
+	pStats.health = pStats.maxHealth = 100;
+	pStats.speed = 7;
+	pStats.armor = 10;
+	pStats.damage = 200;
+	stats = baseStats = pStats;
 }
 
 R_Captain::~R_Captain()
