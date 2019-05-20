@@ -34,7 +34,7 @@ R_Constrobot::R_Constrobot(string _name, string _description, Sprite * _sprite, 
 
 	// Ability 2
 	// Demolish wall
-	abilities[1].cooldown = 20;
+	abilities[1].cooldown = 10;
 	abilities[1].duration = 5;
 	abilities[1].name = { "Unbreakable" };
 	abilities[1].ready = true;
