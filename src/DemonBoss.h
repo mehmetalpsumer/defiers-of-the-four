@@ -16,11 +16,11 @@
 //-----------------------------------------------------------------
 // R_Captain Class
 //-----------------------------------------------------------------
-class DemonBoss1 :public Demon
+class DemonBoss :public Demon
 {
 protected:
 public:
 	// Constructor(s)/Destructor
-	DemonBoss1(Sprite * _sprite, POINT _mapPosition);
-	virtual ~DemonBoss1();
+	DemonBoss(Sprite * _sprite, POINT _mapPosition);
+	virtual ~DemonBoss();
 };

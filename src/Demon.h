@@ -32,6 +32,8 @@ typedef vector<vector<int>> Map;
 
 enum DemonType {
 	D_DEMON,
+	D_EXPLODE,
+	D_RANDOM,
 	D_BOSS1
 };
 
@@ -114,5 +116,6 @@ public:
 	DemonBase*		GetBase() { return base; };
 	void			SetBase(DemonBase* _base) { base = _base; };
 	DemonType		GetDemonType() { return demonType; };
+	void			SetDemonType(DemonType dt) { demonType = dt; };
 
 };

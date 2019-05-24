@@ -63,13 +63,13 @@
     <ClInclude Include="R_Constrobot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DemonBoss1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Portal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="R_Pulsar2280.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DemonBoss.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,13 +116,13 @@
     <ClCompile Include="R_Constrobot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DemonBoss1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Portal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="R_Pulsar2280.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DemonBoss.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

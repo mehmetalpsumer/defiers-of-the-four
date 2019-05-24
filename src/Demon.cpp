@@ -45,7 +45,7 @@ void Character::Update() {
 }
 
 void Demon::Situations(Map currentMap, vector<DemonBase*> demonBaseArray, GameEngine* game, Bitmap* bmDemonBullet, HINSTANCE hInstance) {
-
+	if (demonType == D_EXPLODE) return;
 	/*seekTheRobots(demon, currentmap);
 
 	POINT demonBasePosition;
@@ -592,15 +592,18 @@ void Demon::Attack(Demon* demon, GameEngine* game, Bitmap* bmDemonBullet, HINSTA
 stack<POINT> Demon::DemonRoam(Demon *_demon, POINT robotposition, POINT baselocation, Map currentmap) {
 	/*int robotx= robot.GetMapPosition().x;
 	int roboty = robot.GetMapPosition().y;*/
-	const int range = 3;
+	int range = 3;
+	if (demonType == D_RANDOM) range = 15;
+
 	vector<int> arr_x;
 	vector<int> arr_y;
 
-	int x[] = { -3,-2,-1,0,1,2,3 };
-	for (size_t i = 0; i < 7; i++)
+	//int x[] = { -3,-2,-1,0,1,2,3 };
+
+	for (int i = -range; i <= range; i++)
 	{
-		arr_x.push_back(x[i]);
-		arr_y.push_back(x[i]);
+		arr_x.push_back(i);
+		arr_y.push_back(i);
 	}
 	int isFound = 0;
 	int target_y;
@@ -622,7 +625,10 @@ stack<POINT> Demon::DemonRoam(Demon *_demon, POINT robotposition, POINT baseloca
 		std::mt19937 eng2(rd2()); // seed the generator
 		std::uniform_int_distribution<> distr2(0, arr_x.size() - 2);
 		target_y = distr2(eng2);
+		if (target_y == 0 && target_x == 0) continue;
 		target_y = arr_y[target_y] + baselocation.y;
+
+		if (target_x < 0 || target_y < 0 || target_x >= 32 || target_y >= 24) continue;
 
 		if (currentmap[target_y][target_x] == 0)
 		{

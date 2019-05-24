@@ -6,13 +6,13 @@
 //-----------------------------------------------------------------
 // Include Files
 //-----------------------------------------------------------------
-#include "DemonBoss1.h"
+#include "DemonBoss.h"
 
 //-----------------------------------------------------------------
 // DemonBoss1 Constructor(s)/Destructor
 //-----------------------------------------------------------------
 
-DemonBoss1::DemonBoss1(Sprite * _sprite, POINT _mapPosition):Demon(_sprite, _mapPosition, NULL)
+DemonBoss::DemonBoss(Sprite * _sprite, POINT _mapPosition):Demon(_sprite, _mapPosition, NULL)
 {
 	demonType = D_BOSS1;
 	stats.armor = 10;
@@ -28,6 +28,6 @@ DemonBoss1::DemonBoss1(Sprite * _sprite, POINT _mapPosition):Demon(_sprite, _map
 	fireDirection = { stats.fireSpeed, 0 };
 }
 
-DemonBoss1::~DemonBoss1()
+DemonBoss::~DemonBoss()
 {
 }
