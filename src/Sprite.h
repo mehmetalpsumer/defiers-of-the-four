@@ -84,7 +84,9 @@ public:
 
 	// Accessor Methods
 	Bitmap* GetBitmap() { return bitmap; };
-	void	SetBitmap(Bitmap *_bm) { bitmap = _bm; };
+	void	SetBitmap(Bitmap *_bm) { 
+		bitmap = _bm; 
+	};
  	void	SetNumFrames(int _numFrames, BOOL _isOneCycle = false);
 	void	SetFrameDelay(int _frameDelay) { frameDelay = _frameDelay; };
 	RECT&   GetPosition() { return position; };

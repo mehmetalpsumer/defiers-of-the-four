@@ -29,15 +29,15 @@ void Robot::Update() {
 	int cur = 0;
 	
 	// Update bitmap
-	int velX = sprite->GetVelocity().x;
+	/*int velX = sprite->GetVelocity().x;
 	int velY = sprite->GetVelocity().y;
-	/*if (velY == 0 && velX == 0) {
-		sprite->SetNumFrames(1);
-		cur = robotType * 5;
+	if (velY == 0 && velX == 0) {
 		
-	}*/
-	/*else {
-		sprite->SetNumFrames(15);
+		cur = robotType * 5;
+		sprite->SetBitmap(animationBitmaps[cur]);
+		sprite->SetNumFrames(1);
+	}
+	else {	
 		if (velY == 0) {
 			if (velX > 0) {
 				// right d
@@ -58,8 +58,10 @@ void Robot::Update() {
 				cur = 1 + robotType * 5;
 			}
 		}
+		sprite->SetBitmap(animationBitmaps[cur]);
+		sprite->SetNumFrames(15);
 	}*/
-	//sprite->SetBitmap(animationBitmaps[cur]);
+	
 
 	if (controlStatus != CS_AI) return;
 

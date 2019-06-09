@@ -96,8 +96,8 @@ void Character::Move() {
 
 void Character::SetFireDirection(Character *closestEnemy) {
 	POINT enemypoint;
-	enemypoint.x = closestEnemy->GetMapPosition().x;
-	enemypoint.y = closestEnemy->GetMapPosition().y;
+	enemypoint.x = closestEnemy->GetMapPosition().x + ((rand() % 2) - 2);
+	enemypoint.y = closestEnemy->GetMapPosition().y + ((rand() % 2) - 2);
 	fireDirection.x = enemypoint.x - mapPosition.x;
 	fireDirection.y = enemypoint.y - mapPosition.y;
 };
